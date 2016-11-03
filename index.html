@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Netcentric</title>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link href="https://fonts.googleapis.com/css?family=Life+Savers" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/w3-theme-blue-grey.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
+
+</head>
+
+<body>
+
+<!--First page-->
+<div class="ex">
+    <header class="w3-container w3-padding-32 w3-center  w3-margin-bottom">
+        <!--<div id="includedContent1"></div>
+        เดี๋ยวแก้ให้อีกที มีปัญหาอยู่
+        -->
+        <input id="username" type="text" placeholder="Please insert your name" >
+        <button class="hide" id="play"></button>
+
+    </header>
+</div>
+
+<!--CHAT-->
+<div class="ex2">
+    <header class="w3-container w3-padding-32 w3-center w3-opacity w3-margin-bottom">
+        <h2>CHAT ROOM</h2>
+        <div>
+        </div>
+
+        <div id="wrapper">
+            <div id="menu">
+                <p class='welcome' id="WelcomeUser"><b></b></p>
+                <p class="logout"><a id="exit" href="#">Exit Chat</a></p>
+                <div style="clear:both"></div>
+            </div>
+
+            <div id="chatbox"></div>
+            <div id="listofplayer"></div>
+            <form name="message" action="">
+                <input name="usermsg" type="text" id="usermsg" size="63" />
+                <input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+            </form>
+            <button class="hide" id="play"></button>
+        </div>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            // jQuery Document
+            $(document).ready(function(){
+            });
+        </script>
+</div>
+
+<!--MODE-->
+<div class="ex3">
+<header class="w3-container w3-padding-32 w3-center w3-opacity w3-margin-bottom">
+    <h1>Welcome,</h1>
+    <h2>MODE</h2>
+    <div>
+        <a href="javascript:void(0)" class="w3-btn w3-btn-block w3-hover-blue-grey w3-padding-16">Single Player</a>
+        <a href="javascript:void(0)" class="w3-btn w3-btn-block w3-hover-teal w3-padding-16" id='multi'>Multi Player</a>
+        <!--time counter for challenging-->
+        <a id="cha" class="w3-btn w3-btn-block w3-hover-light-blue w3-padding-16"> Challenging</a>
+        <button class="hide" id="play"></button>
+    </div>
+
+</header>
+</div>
+
+<!--LEVEL-->
+<div class="ex4">
+<header class="w3-container w3-padding-32 w3-center w3-opacity w3-margin-bottom">
+    <h1>Welcome,</h1>
+    <h2>LEVEL</h2>
+    <div>
+        <a href="javascript:void(0)" class="w3-btn w3-btn-block w3-hover-blue-grey w3-padding-16">Easy</a>
+        <a href="javascript:void(0)" class="w3-btn w3-btn-block w3-hover-teal w3-padding-16">Medium</a>
+        <a href="javascript:void(0)" class="w3-btn w3-btn-block w3-hover-light-blue w3-padding-16">Hard</a>
+        <button class="hide" id="play"></button>
+    </div>
+
+</header>
+</div>
+
+<!--LOADING-->
+<div class="ex5">
+    <header class="w3-container w3-padding-32 w3-center w3-margin-bottom">
+        <img src="04de2e31234507.564a1d23645bf.gif">
+        <h2> Wait for your opponent</h2>
+        <button class="hide" id="play"></button>
+    </header>
+
+</div>
+
+<!-- If player chooses Challenge-->
+<div class="exCha">
+    <header>
+        <button onClick="myTimer = setInterval(counterkaaacounter, 1000)">Start counter!</button>
+        <p id="demo">0</p>
+        <button onClick="clearInterval(myTimer)">Stop counter!</button>
+    </header>
+</div>
+
+<!-- GAME -->
+<div class="ex6">
+    <div class="w3-container w3-padding-32 w3-center w3-margin-bottom" class="ex6header">
+        <div class="w3-col s4 w3-center " id="player1">
+            <div class="w3-container w3-theme" id="player1name">
+                <h4>PLAYER1'S NAME</h4>
+            </div>
+
+            <div class="w3-container w3-text-theme" id="player1score">
+                <h5>0</h5></div>
+        </div>
+
+        <div class="w3-col s4 w3-center" class="clock" id="clockdiv">
+            <h6>Remaining Time:</h6>
+            <div>
+                <span class="minutes"></span>
+                <div class="smalltext">Minutes</div>
+            </div>
+            <div>
+                <span class="seconds"></span>
+                <div class="smalltext">Seconds</div>
+            </div><br>
+        </div>
+
+        <div class="w3-col s4 w3-center " id="player2">
+            <div class="w3-container w3-theme" id="player2name">
+                <h4>PLAYER2'S NAME</h4>
+            </div>
+
+            <div class="w3-container w3-text-theme" id="player2score">
+                <h5>0</h5></div>
+        </div>
+
+    </div>
+    <!button id="p" class="start" onclick="start(),starttime()">START<!/button>
+
+    <div id="includedContent2"></div>
+
+</div>
+
+<!--Winnerrr-->
+<div class="ex7">
+    <header class="w3-container w3-padding-32 w3-center w3-opacity w3-margin-bottom">
+        <h7>YOU ARE THE WINNER!</h7>
+
+
+    </header>
+</div>
+
+
+        <script src="timer.js"></script>
+
+    </header>
+
+</div>
+
+
+</body>
+
+    </header>
+
+</div>
+
+</body>
+
+</html>
+
+<script src="index.js"></script>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://www.w3schools.com/jquery/jquery_ref_effects.asp"></script>
+
+<script>
+    var socket = io.connect();
+    var $username = $('#username');
+    var $name = $('');
+    var $listofplayer = $('#listofplayer');
+    var $error = $('#error');
+    var $room = $('#room');
+    var $WelcomeUser = $('#WelcomeUser');
+    var $submitmsg = $('#submitmsg');
+    var $usermsg = $('#usermsg');
+    var $chatbox = $('#chatbox');
+    var $multi = $('#multi');
+    var player1name = $('#player1name'),player1score = $('#player1score');
+    var player2name = $('#player2name'),player2score = $('#player2score');
+
+    //page 1
+    $(document).ready(function(){
+        $(".ex2").hide();
+        $(".ex3").hide();
+        $(".ex4").hide();
+        $(".ex5").hide();
+        $(".ex6").hide();
+        $(".ex7").hide();
+        $(".exCha").hide();
+
+
+        $(".ex .hide").click(function() {
+            socket.emit('send username', $username.val(), function (data) {  //send username + detect duplicate user
+                if (!data) {
+                    $error.html("duplicate username");
+                    window.alert("duplicate user");
+                } else {
+                    $error.hide();
+                    $(".ex").hide("slow");
+                    $(".ex2").show();
+                }
+            })
+        });
+    });
+    socket.on('welcomeuser',function(data){
+        console.log(data);
+        $WelcomeUser.html(data);
+        socket.on('broadcast',function (data) {
+            console.log(data);
+            $chatbox.append('<i>'+ data +'<br/>');
+        })
+    });
+    $submitmsg.click(function(e) {
+                e.preventDefault();
+                socket.emit('send msg', $usermsg.val());
+                $usermsg.val(' ');
+            }
+    );
+    socket.on('new msg',function (data) {
+        $chatbox.append('<b>' + data.nick + ':</b>' + data.msg + "<br/>");
+        console.log(data.nick);
+    })
+    socket.on('listOfUser',function (data) {   //add list of online user
+        var list = 'Online :<br/>';
+        for(i=0;i<data.length;i++){
+            list += data[i]+ '<br/>'
+        }
+        $listofplayer.html(list);
+    });
+
+    //chat page
+    $(".ex2 .hide").click(function(){
+        $(this).parents(".ex2").hide("slow");
+        $(".ex3").show();
+    });
+
+    //game
+    $(".ex3 .hide").click(function(){
+        $(this).parents(".ex3").hide("slow");
+        $(".ex4").show();
+    });
+
+    $multi.click(function(){
+        console.log('multiplayer mode');
+        socket.emit('pair');
+    });
+
+    //one opponent obtain this page
+    socket.on('connectToRoom',function(data){
+        $(".ex3").hide("slow");
+
+        if(data.playturn){
+            $(".ex6").show();
+            start();starttime();
+        }else{
+            $(".ex5").show();
+        }
+
+    });
+
+
+    $("#cha").click(function(){
+        $(this).parents(".ex3").hide("slow");
+        $(".exCha").show();
+    });
+
+    $(".ex4 .hide").click(function(){
+        $(this).parents(".ex4").hide("slow");
+        $(".ex5").show();
+    });
+
+    $(".ex5 .hide").click(function(){
+        $(this).parents(".ex5").hide("slow");
+        $(".ex6").show();
+    });
+
+    $("#p").click(function(){
+        $("#p").hide();
+    });
+
+
+    $(function(){
+        $("#includedContent1").load("firstpage.html");
+    });
+    $(function(){
+        $("#includedContent2").load("calculate.html");
+    });
+
+</script>
+
+
+
+</body>
+</html>

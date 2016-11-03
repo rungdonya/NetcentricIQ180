@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Testp</title>
+    <style>
+
+        /* Using box shadows to create 3D effects */
+        #calculator {
+            width: 50%;
+            height: 80%;
+
+            margin: 10px auto;
+            padding: 20px 20px 9px;
+            background: #9dd2ea;
+            background: linear-gradient(#9dd2ea, #8bceec);
+            border-radius: 3px;
+            box-shadow: 0px 4px #009de4, 0px 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Top */
+
+
+        #ans{
+            height: 40px;
+            width: 70%;
+            float: left;
+            padding: 0 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            box-shadow: inset 0px 4px rgba(0, 0, 0, 0.2);
+            /* fonttttttt*/
+            font-size: 17px;
+            line-height: 40px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            letter-spacing: 1px;
+        }
+
+        .top .screen {
+            height: 40px;
+            width: 10%;
+            float: right;
+            padding: 0 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            box-shadow: inset 0px 4px rgba(0, 0, 0, 0.2);
+            /* fonttttttt*/
+            font-size: 17px;
+            line-height: 40px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            text-align: right;
+            letter-spacing: 1px;
+        }
+
+        /* Clear floats */
+        .keys, .top {overflow: hidden;}
+
+        /* Applying same to the keys */
+        .keys span, .top span.clear {
+            float: left;
+            position: relative;
+            top: 0;
+            cursor: pointer;
+            width: 75px;
+            height: 36px;
+            background: #f3cbce;
+            border-radius: 3px;
+            box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
+            margin: 0 7px 11px 0;
+            color: #888;
+            line-height: 36px;
+            text-align: center;
+
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+
+        /* Some hover effects */
+        .keys span:hover {
+            background: #f3cbce;
+            box-shadow: 0px 4px #bfa0a2;
+            color: white;
+        }
+
+        .keys span:active {
+            box-shadow: 0px 0px #bfa0a2;
+            top: 4px;
+        }
+
+        .keys span.eval:active {
+            box-shadow: 0px 0px #717a33;
+            top: 4px;
+        }
+
+        .top span.clear:active {
+            top: 4px;
+            box-shadow: 0px 0px #d3545d;
+        }
+
+    </style>
+
+</head>
+<body>
+<div id="calculator">
+    <!-- topp -->
+    <div class="top">
+        <span class="inputvalue"><input id="ans" type="text"></span>
+        <div class="screen">
+            <span><p id = "realans"></p></span>
+        </div>
+        </p>
+    </div>
+
+    <div class="keys">
+        <!-- operators and other keys -->
+        <span><button id="num1" onclick="num1()" >#</button></span>
+        <span><button id="num2" onclick="num2()" >#</button></span>
+        <span><button id="num3" onclick="num3()" >#</button></span>
+        <span><button id="num4" onclick="num4()" >#</button></span>
+        <span><button id="num5" onclick="num5()" >#</button></span>
+        </p>
+        <span><button id="plus" onclick="plus()" >+</button></span>
+        <span><button id="min" onclick = "minus()">-</button></span>
+        <span><button id="mul" onclick ="multiply()">x</button></span>
+        <span><button id="div" onclick="divide()" >/</button></span>
+        <span><button id="brac1" onclick="brac1()" >(</button></span>
+        <span><button id="brac2" onclick="brac2()" >)</button></span>
+        </p>
+        <button onclick ="check()">Check</button>
+
+
+    </div>
+</div>
+
+</body>
+<!-- PrefixFree -->
+<script src="http://thecodeplayer.com/uploads/js/prefixfree-1.0.7.js" type="text/javascript" type="text/javascript"></script>
+<script src="calculate.js">
+
+</script>
+</html>
