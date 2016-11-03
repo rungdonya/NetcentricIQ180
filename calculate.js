@@ -16,46 +16,15 @@ var sum,quest,temp;
 
 
 
-function start() {
-    if (clicked == false) {
-
-        for(i=0;i<5;i++){
-            num[i] = Math.floor((Math.random() * 9)+1);
-
-            if(i==0){
-                sum = num[i];
-            }else {
-                var op = Math.floor((Math.random() * 4) + 1);
-                if (op == 1) {
-                    sum += num[i];
-                } else if (op == 2) {
-                    sum -= num[i];
-                } else if (op == 3) {
-                    sum *= num[i];
-                } else {
-                    temp = sum;
-                    sum /= num[i];
-                    if(sum%num[i]==0) {
-                        quest += "/" + num[i];
-                    }else{
-                        sum =temp;
-                        i--;
-                    }
-                }
-            }
-            clicked = true;
-        }
-        if(sum>=100||sum<=0){
-            clicked=false;
-            reset();
-        }
-        document.getElementById("realans").innerHTML = sum;
-        document.getElementById("num1").innerHTML = num[0];
-        document.getElementById("num2").innerHTML = num[1];
-        document.getElementById("num3").innerHTML = num[2];
-        document.getElementById("num4").innerHTML = num[3];
-        document.getElementById("num5").innerHTML = num[4];
-    }
+function start(data) {
+   // if (clicked == false) {
+        document.getElementById("realans").innerHTML = data.sum;
+        document.getElementById("num1").innerHTML = data.num[0];
+        document.getElementById("num2").innerHTML = data.num[1];
+        document.getElementById("num3").innerHTML = data.num[2];
+        document.getElementById("num4").innerHTML = data.num[3];
+        document.getElementById("num5").innerHTML = data.num[4];
+   // }
 }
 function  reset() {
     qu = ""

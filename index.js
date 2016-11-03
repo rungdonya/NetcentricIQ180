@@ -89,12 +89,37 @@ io.sockets.on('connection',function (socket) {
 
             strt = Math.floor(Math.random()*10)+1;
             console.log('Random Number to find starter :'+strt);
+            starterid = '';anotherid ='';
 
             if(strt<=5){
+                //first that enters the room plays first
+
                 console.log(rooms[roomno].first.name + ' plays first');
+                io.to(rooms[roomno].first.id).emit('connectToRoom', {
+                    descriptions: '1st player',num : num, sum: sum, playturn : true,
+                    room: roomno, username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"]
+                });
+
+
+                io.to(rooms[roomno].second.id).emit('connectToRoom', {
+                    descriptions: '2nd player',num : num , sum: sum, playturn : false,
+                    room: roomno, username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
+                });
+
 
             }else{
-                console.log(rooms[roomno].second.name + ' plays second');
+                console.log(rooms[roomno].second.name + ' plays first');
+               // starterid = rooms[roomno].second.id;
+               // anotherid = rooms[roomno].first.id;
+                io.to(rooms[roomno].second.id).emit('connectToRoom', {
+                    descriptions: '1st player',num : num, sum: sum, playturn : true,
+                    room: roomno, username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
+                });
+
+                io.to(rooms[roomno].first.id).emit('connectToRoom', {
+                    descriptions: '2nd player',num : num , sum: sum, playturn : false,
+                    room: roomno, username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"]
+                });
             }
             console.log(rooms[roomno]);
             //Send this event to everyone in the room.
@@ -104,7 +129,7 @@ io.sockets.on('connection',function (socket) {
             //numnull = ['x','x','x','x','x','x'];
 
 
-            io.to(rooms[roomno].first.id).emit('connectToRoom', {
+           /* io.to(starterid).emit('connectToRoom', {
                 descriptions: '1st player',num : num, sum: sum, playturn : true,
                 room: roomno, firstplayer :rooms[roomno].first["name"],
                 firstplayerScore: rooms[roomno].first["score"],
@@ -114,12 +139,17 @@ io.sockets.on('connection',function (socket) {
 
             console.log(roomno);
 
-            io.to(rooms[roomno].second.id).emit('connectToRoom', {
+            io.to(anotherid).emit('connectToRoom', {
                 descriptions: '2nd player',num : num , sum: sum, playturn : false,
+<<<<<<< Updated upstream
                 room: roomno, firstplayer :rooms[roomno].first["name"], firstplayerScore: rooms[roomno].first["score"],
                 secondplayer: rooms[roomno].second["name"] , secondplayerScore: rooms[roomno].second["score"]
                 //yung mai declare
             });
+=======
+                room: roomno, firstplayer :rooms[roomno].first["name"], secondplayer: rooms[roomno].second["name"]
+            });*/
+>>>>>>> Stashed changes
 
 
             /*socket.on('continue',function (data) {
