@@ -47,7 +47,6 @@ io.sockets.on('connection',function (socket) {
     send();
     clients = [];
     var count =0;
-    var player1score;
 
     socket.on('pair',function () {
 
