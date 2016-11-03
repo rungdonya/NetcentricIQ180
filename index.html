@@ -113,7 +113,7 @@
     <div class="w3-container w3-padding-32 w3-center w3-margin-bottom" class="ex6header">
         <div class="w3-col s4 w3-center " id="player1">
             <div class="w3-container w3-theme" id="player1name">
-                <h4>PLAYER1'S NAME</h4>
+                <h4 id="p1name">PLAYER1'S NAME</h4>
             </div>
 
             <div class="w3-container w3-text-theme" id="player1score">
@@ -134,7 +134,7 @@
 
         <div class="w3-col s4 w3-center " id="player2">
             <div class="w3-container w3-theme" id="player2name">
-                <h4>PLAYER2'S NAME</h4>
+                <h4 id="p2name">PLAYER2'S NAME</h4>
             </div>
 
             <div class="w3-container w3-text-theme" id="player2score">
@@ -194,8 +194,8 @@
     var $usermsg = $('#usermsg');
     var $chatbox = $('#chatbox');
     var $multi = $('#multi');
-    var player1name = $('#player1name'),player1score = $('#player1score');
-    var player2name = $('#player2name'),player2score = $('#player2score');
+    var p1name = $('#p1name'),player1score = $('#player1score');
+    var p2name = $('#p2name'),player2score = $('#player2score');
 
     //page 1
     $(document).ready(function(){
@@ -267,7 +267,10 @@
     //one opponent obtain this page
     socket.on('connectToRoom',function(data){
         $(".ex3").hide("slow");
-
+        console.log(data.firstplayer);
+        console.log(data.secondplayer);
+         p1name.html(data.firstplayer);
+         p2name.html(data.secondplayer);
         if(data.playturn){
             $(".ex6").show();
             start();starttime();

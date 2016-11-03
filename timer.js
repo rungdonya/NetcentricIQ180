@@ -41,5 +41,5 @@ function starttime() {
     var currentTime = Date.parse(new Date());
     var deadline = new Date(currentTime + timeInMinutes*60*1000);
     initializeClock('clockdiv', deadline);
-    document.getElementById("p").isDisabled = true;
+    //document.getElementById("p").isDisabled = true;
 }

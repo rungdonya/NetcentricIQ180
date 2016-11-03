@@ -106,13 +106,15 @@ io.sockets.on('connection',function (socket) {
 
 
             io.to(rooms[roomno].first.id).emit('connectToRoom', {
-                descriptions: '1st player',num : num, sum: sum, playturn : true, room: roomno
+                descriptions: '1st player',num : num, sum: sum, playturn : true,
+                room: roomno, firstplayer :rooms[roomno].first["name"], secondplayer: rooms[roomno].second["name"]
             });
 
             console.log(roomno);
 
             io.to(rooms[roomno].second.id).emit('connectToRoom', {
-                descriptions: '2nd player',num : num , sum: sum, playturn : false, room: roomno
+                descriptions: '2nd player',num : num , sum: sum, playturn : false,
+                room: roomno, firstplayer :rooms[roomno].first["name"], secondplayer: rooms[roomno].second["name"]
             });
 
 
