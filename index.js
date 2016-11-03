@@ -106,14 +106,19 @@ io.sockets.on('connection',function (socket) {
 
             io.to(rooms[roomno].first.id).emit('connectToRoom', {
                 descriptions: '1st player',num : num, sum: sum, playturn : true,
-                room: roomno, firstplayer :rooms[roomno].first["name"], secondplayer: rooms[roomno].second["name"]
+                room: roomno, firstplayer :rooms[roomno].first["name"],
+                firstplayerScore: rooms[roomno].first["score"],
+                secondplayer: rooms[roomno].second["name"],
+                secondplayerScore: rooms[roomno].second["score"]
             });
 
             console.log(roomno);
 
             io.to(rooms[roomno].second.id).emit('connectToRoom', {
                 descriptions: '2nd player',num : num , sum: sum, playturn : false,
-                room: roomno, firstplayer :rooms[roomno].first["name"], secondplayer: rooms[roomno].second["name"]
+                room: roomno, firstplayer :rooms[roomno].first["name"], firstplayerScore: rooms[roomno].first["score"],
+                secondplayer: rooms[roomno].second["name"] , secondplayerScore: rooms[roomno].second["score"]
+                //yung mai declare
             });
 
 
@@ -139,14 +144,14 @@ io.sockets.on('connection',function (socket) {
             //if player==1 --> kon tee 1 just played   //keep score+time
             if (socket.id === rooms[data.room].first.id) {
                 io.to(rooms[data.room].second.id).emit('play', {
-                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true
+                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, time: data.time, score: data.score, turn: 0
                 });
                 console.log(rooms[data.room]);
                 console.log('2nd player turn');
             } else {
                 io.to(rooms[data.room].first.id).emit('play', {
-                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true
-                });
+                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, time: data.time, score: data.score, turn: 0
+            });
                 console.log(rooms[data.room]);
                 console.log('2nd player turn');
             }
@@ -157,6 +162,24 @@ io.sockets.on('connection',function (socket) {
 
         //   socket.leave("room-"+roomno);
     });
+ \
+        socket.on('send ans', function(data) {
+            if (socket.id === rooms[data.room].first.id) {
+                io.to(rooms[data.room].second.id).emit('connectToRoom', {
+                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, turn: 1
+                });
+            }
+
+            rooms[data.room].second.time= data.time;
+        });
+        socket.on('send ans', function(data) {
+            if (socket.id === rooms[data.room].first.id) {
+                rooms[data.room].second.time= data.time;
+                rooms[data.room].second.score= data.score;
+            }
+
+
+        });
 
 
 

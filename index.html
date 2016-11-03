@@ -265,15 +265,18 @@
     });
 
     //one opponent obtain this page
+    var turn;
     socket.on('connectToRoom',function(data){
         $(".ex3").hide("slow");
         console.log(data.firstplayer);
         console.log(data.secondplayer);
          p1name.html(data.firstplayer);
          p2name.html(data.secondplayer);
+        turn = data.turn;
         if(data.playturn){
             $(".ex6").show();
             start();starttime();
+
         }else{
             $(".ex5").show();
         }
@@ -295,7 +298,17 @@
         $(this).parents(".ex5").hide("slow");
         $(".ex6").show();
     });
-
+    var time, score;
+    function check(){
+        if(turn=0){
+            socket.emit('send ans', {num : num, sum: sum, room: roomno, time: time, score: score
+            });
+        }if(turn=1) {
+            socket.emit('done', {
+                room: roomno, time: time, score: score
+            });
+        }
+    };
     $("#p").click(function(){
         $("#p").hide();
     });
