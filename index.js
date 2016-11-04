@@ -76,6 +76,7 @@ io.sockets.on('connection',function (socket) {
             // socket.room=roomno;
             rooms[roomno].first["id"] = socket.id;
             rooms[roomno].first["name"] = socket.name;
+            rooms[roomno].first["score"] = 0;
 
             //   rooms[roomno].first["room"] = socket.room;
             // end random code
@@ -84,6 +85,7 @@ io.sockets.on('connection',function (socket) {
 
             rooms[roomno].second["id"] = socket.id;
             rooms[roomno].second["name"] = socket.name;
+            rooms[roomno].second["score"] = 0;
             //  rooms[roomno].second["room"] = socket.room;
 
 
@@ -192,27 +194,40 @@ io.sockets.on('connection',function (socket) {
 
         //   socket.leave("room-"+roomno);
     });
-
-        socket.on('send ans', function(data) {
-            if (socket.id === rooms[data.room].first.id) {
-                io.to(rooms[data.room].second.id).emit('connectToRoom', {
-                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, turn: 1
-                });
-            }
-
-            rooms[data.room].second.time= data.time;
-        });
-        socket.on('send ans', function(data) {
-            if (socket.id === rooms[data.room].first.id) {
-                rooms[data.room].second.time= data.time;
-                rooms[data.room].second.score= data.score;
-            }
-
-
-        });
+        //     mai ru wa tum arai ru
+        // socket.on('send ans', function(data) {
+        //     if (socket.id === rooms[data.room].first.id) {
+        //         io.to(rooms[data.room].second.id).emit('connectToRoom', {
+        //             descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, turn: 1
+        //         });
+        //     }
+        //
+        //     rooms[data.room].second.time= data.time;
+        // });
+        // socket.on('send ans', function(data) {
+        //     if (socket.id === rooms[data.room].first.id) {
+        //         rooms[data.room].second.time= data.time;
+        //         rooms[data.room].second.score= data.score;
+        //     }
+        //
+        //
+        // });
     socket.on('isclick',function(){
         console.log('clicked');
     });
+    socket.on('done', function(data){
+        if(data.firstCorrect==data.secondCorrect){
+            if(data.firstCorrect){
+                if(data.firstTime>=data.secondTime){
+                    rooms[data.room].first["score"] += 1;
+                }else{
+                    rooms[data.room].second["score"] += 1;
+                }
+            }else{
+
+            }
+        }
+    })
 
 
 
