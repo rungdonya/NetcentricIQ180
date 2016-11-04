@@ -108,9 +108,9 @@ io.sockets.on('connection',function (socket) {
 
 
             }else{
+                //second players that enter the room plays first
                 console.log(rooms[roomno].second.name + ' plays first');
-               // starterid = rooms[roomno].second.id;
-               // anotherid = rooms[roomno].first.id;
+
                 io.to(rooms[roomno].second.id).emit('connectToRoom', {
                     descriptions: '1st player',num : num, sum: sum, playturn : true,
                     room: roomno, username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
@@ -149,7 +149,7 @@ io.sockets.on('connection',function (socket) {
 =======
                 room: roomno, firstplayer :rooms[roomno].first["name"], secondplayer: rooms[roomno].second["name"]
             });*/
->>>>>>> Stashed changes
+
 
 
             /*socket.on('continue',function (data) {
@@ -192,7 +192,7 @@ io.sockets.on('connection',function (socket) {
 
         //   socket.leave("room-"+roomno);
     });
- \
+
         socket.on('send ans', function(data) {
             if (socket.id === rooms[data.room].first.id) {
                 io.to(rooms[data.room].second.id).emit('connectToRoom', {

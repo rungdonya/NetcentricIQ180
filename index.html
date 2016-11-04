@@ -193,7 +193,8 @@
     var $submitmsg = $('#submitmsg');
     var $usermsg = $('#usermsg');
     var $chatbox = $('#chatbox');
-    var $multi = $('#multi');
+    var $multi = $('#multi'); var checkans = $('#checkans');
+    var correct =false;
     var p1name = $('#p1name'),player1score = $('#player1score');
     var p2name = $('#p2name'),player2score = $('#player2score');
 
@@ -268,28 +269,19 @@
     var turn;
     socket.on('connectToRoom',function(data){
         $(".ex3").hide("slow");
-<<<<<<< Updated upstream
-        console.log(data.firstplayer);
-        console.log(data.secondplayer);
-         p1name.html(data.firstplayer);
-         p2name.html(data.secondplayer);
-        turn = data.turn;
-        if(data.playturn){
-            $(".ex6").show();
-            start();starttime();
 
-=======
         console.log(data.username);
         console.log(data.opponent);
 
         if(data.playturn){
+
             $(".ex6").show();
             //random problem
             p1name.html(data.username);
             p2name.html(data.opponent);
-            start(data);
-            starttime();
->>>>>>> Stashed changes
+            start(data);starttime();
+
+
         }else{
             $(".ex5").show();
 
@@ -312,6 +304,7 @@
         $(this).parents(".ex5").hide("slow");
         $(".ex6").show();
     });
+
     var time, score;
     function check(){
         if(turn=0){

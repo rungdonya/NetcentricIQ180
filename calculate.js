@@ -2,7 +2,6 @@
  * Created by apple on 11/3/2016 AD.
  */
 
-var num = [];
 var qu = " ";
 var clicked= false;
 var clknum1 =false;
@@ -10,21 +9,20 @@ var clknum2 = false;
 var clknum3 = false;
 var clknum4 = false;
 var clknum5 = false;
-var prob;
 var text="";
-var sum,quest,temp;
+var finished=false;
 
 
 
 function start(data) {
-   // if (clicked == false) {
-        document.getElementById("realans").innerHTML = data.sum;
-        document.getElementById("num1").innerHTML = data.num[0];
-        document.getElementById("num2").innerHTML = data.num[1];
-        document.getElementById("num3").innerHTML = data.num[2];
-        document.getElementById("num4").innerHTML = data.num[3];
-        document.getElementById("num5").innerHTML = data.num[4];
-   // }
+
+    document.getElementById("realans").innerHTML = data.sum;
+    document.getElementById("num1").innerHTML = data.num[0];
+    document.getElementById("num2").innerHTML = data.num[1];
+    document.getElementById("num3").innerHTML = data.num[2];
+    document.getElementById("num4").innerHTML = data.num[3];
+    document.getElementById("num5").innerHTML = data.num[4];
+
 }
 function  reset() {
     qu = ""
@@ -32,29 +30,38 @@ function  reset() {
     clicked = false;
     start();
 }
-function check(){
+function check(data){
     var input = document.getElementById("ans").value;
     var num=0;
+
     console.log(input);
     var inputarray =[];
+
     for(i=0;i<input.length;i++){
         inputarray[i]=input.substring(i,i+1);
-        if(inputarray[i].localeCompare(document.getElementById("num1").innerHTML)==0||inputarray[i].localeCompare(document.getElementById("num2").innerHTML)==0||inputarray[i].localeCompare(document.getElementById("num3").innerHTML)==0||inputarray[i].localeCompare(document.getElementById("num4").innerHTML)==0||inputarray[i].localeCompare(document.getElementById("num5").innerHTML)==0){
+        if(inputarray[i].localeCompare(document.getElementById("num1").innerHTML)==0||
+            inputarray[i].localeCompare(document.getElementById("num2").innerHTML)==0||
+            inputarray[i].localeCompare(document.getElementById("num3").innerHTML)==0||
+            inputarray[i].localeCompare(document.getElementById("num4").innerHTML)==0||
+            inputarray[i].localeCompare(document.getElementById("num5").innerHTML)==0){
             num++;
         }
     }
     console.log(num)
     if(num<5){
         alert("Please use all the values we given!!")
+        return false;
     }else if(num==5){
         if(eval(input)==document.getElementById("realans").innerHTML){
-            alert("CORRECT!!!")
-            reset();
+         //   alert("CORRECT!!!")
+              data = true;
+        //    socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
         }else{
             alert("WRONG!!!")
         }
-    }else {
+    }else if(num>5){
         alert("Please use each value once!!")
+        return false;
     }
 
 }
