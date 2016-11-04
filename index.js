@@ -76,6 +76,7 @@ io.sockets.on('connection',function (socket) {
             // socket.room=roomno;
             rooms[roomno].first["id"] = socket.id;
             rooms[roomno].first["name"] = socket.name;
+            rooms[roomno].first["score"] = 0;
 
             //   rooms[roomno].first["room"] = socket.room;
             // end random code
@@ -84,6 +85,7 @@ io.sockets.on('connection',function (socket) {
 
             rooms[roomno].second["id"] = socket.id;
             rooms[roomno].second["name"] = socket.name;
+            rooms[roomno].second["score"] = 0;
             //  rooms[roomno].second["room"] = socket.room;
 
 
@@ -221,8 +223,32 @@ io.sockets.on('connection',function (socket) {
        console.log('done');
     });
 
+   
     socket.on('isclick',function(){
         console.log('clicked');
+    });
+    socket.on('done', function(data){
+        if(data.firstCorrect==data.secondCorrect){
+            if(data.firstCorrect){
+                if(data.firstTime>=data.secondTime){
+                    rooms[data.room].first["score"] += 1;
+                }else if(data.firstTime<data.secondTime){
+                    rooms[data.room].second["score"] += 1;
+                }
+            }else{
+                console.log("both fail to answer");
+            }
+        }else{
+            if(data.firstCorrect){
+                rooms[data.room].first["score"] += 1;
+            }else if(data.secondCorrect){
+                rooms[data.room].second["score"] += 1;
+            }
+        }
+        socket.emit('conclusion', {
+            room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
+            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]
+        });
     });
 
 

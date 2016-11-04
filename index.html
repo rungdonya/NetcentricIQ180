@@ -348,7 +348,7 @@
     function check(){
         var input = document.getElementById("ans").value;
         var num=0;
-
+        var correct;
 
         console.log(input);
         var inputarray =[];
@@ -364,10 +364,9 @@
                 num++;
             }
         }
-        console.log(num);
-
+        console.log(num)
         if(num<5){
-            alert("Please use all the values we've given!!")
+            alert("Please use all the values we given!!")
             correct=false;
             //return false;
         }else if(num==5){
@@ -375,14 +374,7 @@
                 //   alert("CORRECT!!!")
                correct=true;
                 // data = true;
-                if(turn==1) {
-                    socket.emit('done', {
-                        room: roomno, time: time, score: score
-                    });
-                }else if(turn ==0){
-                    socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
-                }
-
+                socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
                // socket.emit('showit');
             }else{
                 alert("WRONG!!!")
