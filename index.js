@@ -92,15 +92,15 @@ io.sockets.on('connection',function (socket) {
             starterid = '';anotherid ='';
 
             if(strt<=5){
-                //first that enters the room plays first
 
+                //first that enters the room plays first
                 console.log(rooms[roomno].first.name + ' plays first');
                 io.to(rooms[roomno].first.id).emit('connectToRoom', {
                     descriptions: '1st player',num : num, sum: sum, playturn : true,turn :0,
                     room: roomno, username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"]
                 });
 
-
+                //emit waiting page to another player
                 io.to(rooms[roomno].second.id).emit('connectToRoom', {
                     descriptions: '2nd player',num : num , sum: sum, playturn : false,turn :0,
                     room: roomno, username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
@@ -171,17 +171,35 @@ io.sockets.on('connection',function (socket) {
 
             console.log("player "+socket.id);
             console.log("Hello");
+
+
             //if player==1 --> kon tee 1 just played   //keep score+time
             if (socket.id === rooms[data.room].first.id) {
+
+                //emit to second player
                 io.to(rooms[data.room].second.id).emit('play', {
-                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, time: data.time, score: data.score, turn: 0
+                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true,
+                    time: data.time, score: data.score, turn: 1, room: data.room,
+                    username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
                 });
+
+                //emit to first player
+                io.to(rooms[data.room].second.id).emit('play', {
+                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true,
+                    time: data.time, score: data.score, turn: 1, room: data.room,
+                    username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
+                });
+
                 console.log(rooms[data.room]);
                 console.log('2nd player turn');
+
             } else {
                 io.to(rooms[data.room].first.id).emit('play', {
-                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, time: data.time, score: data.score, turn: 0
-            });
+                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true,
+                    time: data.time, score: data.score, turn: 1, room: data.room,
+                    username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"]
+                });
+
                 console.log(rooms[data.room]);
                 console.log('2nd player turn');
             }

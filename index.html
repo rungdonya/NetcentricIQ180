@@ -275,9 +275,9 @@
         console.log(data.username);
         console.log(data.opponent);
 
-        var roomNum= data.room;
-        var originalProb = data.num;
-        var originalAns = data.sum;
+        roomNum= data.room;
+        originalProb = data.num;
+        originalAns = data.sum;
 
         if(data.playturn){
 
@@ -287,13 +287,25 @@
             p2name.html(data.opponent);
             start(data);starttime();
 
-
         }else{
             $(".ex5").show();
-
         }
-
     });
+
+    socket.on('play', function(data){
+        if(data.playturn){
+            $(".ex5").hide("slow");
+            console.log('player: '+data.username);
+            console.log('opponent: '+data.opponent);
+
+            $(".ex6").show();
+            //random problem
+            p1name.html(data.username);
+            p2name.html(data.opponent);
+            start(data);starttime();
+        }
+    });
+
 
 
     $("#cha").click(function(){
@@ -328,7 +340,7 @@
     function check(){
         var input = document.getElementById("ans").value;
         var num=0;
-        var correct;
+
 
         console.log(input);
         var inputarray =[];
@@ -344,9 +356,10 @@
                 num++;
             }
         }
-        console.log(num)
+        console.log(num);
+
         if(num<5){
-            alert("Please use all the values we given!!")
+            alert("Please use all the values we've given!!")
             correct=false;
             //return false;
         }else if(num==5){
