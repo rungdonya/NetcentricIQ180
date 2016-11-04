@@ -267,11 +267,17 @@
 
     //one opponent obtain this page
     var turn;
+    var roomNum,originalProb,originalAns;
+
     socket.on('connectToRoom',function(data){
         $(".ex3").hide("slow");
 
         console.log(data.username);
         console.log(data.opponent);
+
+        var roomNum= data.room;
+        var originalProb = data.num;
+        var originalAns = data.sum;
 
         if(data.playturn){
 
@@ -306,16 +312,7 @@
     });
 
     var time, score;
-    function check(){
-        if(turn=0){
-            socket.emit('send ans', {num : num, sum: sum, room: roomno, time: time, score: score
-            });
-        }if(turn=1) {
-            socket.emit('done', {
-                room: roomno, time: time, score: score
-            });
-        }
-    };
+
     $("#p").click(function(){
         $("#p").hide();
     });
@@ -328,6 +325,56 @@
         $("#includedContent2").load("calculate.html");
     });
 
+    function check(){
+        var input = document.getElementById("ans").value;
+        var num=0;
+        var correct;
+
+        console.log(input);
+        var inputarray =[];
+        socket.emit('isclick');
+
+        for(i=0;i<input.length;i++){
+            inputarray[i]=input.substring(i,i+1);
+            if(inputarray[i].localeCompare(document.getElementById("num1").innerHTML)==0||
+                    inputarray[i].localeCompare(document.getElementById("num2").innerHTML)==0||
+                    inputarray[i].localeCompare(document.getElementById("num3").innerHTML)==0||
+                    inputarray[i].localeCompare(document.getElementById("num4").innerHTML)==0||
+                    inputarray[i].localeCompare(document.getElementById("num5").innerHTML)==0){
+                num++;
+            }
+        }
+        console.log(num)
+        if(num<5){
+            alert("Please use all the values we given!!")
+            correct=false;
+            //return false;
+        }else if(num==5){
+            if(eval(input)==document.getElementById("realans").innerHTML){
+                //   alert("CORRECT!!!")
+               correct=true;
+                // data = true;
+                socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
+               // socket.emit('showit');
+            }else{
+                alert("WRONG!!!")
+            }
+        }else if(num>5){
+            alert("Please use each value once!!")
+            //return false;
+            correct=false;
+        }
+        if(turn=0){
+            socket.emit('send ans', {num : num, sum: sum, room: roomno, time: time, score: score
+            });
+        }if(turn=1) {
+            socket.emit('done', {
+                room: roomno, time: time, score: score
+            });
+        }
+
+
+    }
 </script>
 
 

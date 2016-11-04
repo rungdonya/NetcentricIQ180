@@ -96,13 +96,13 @@ io.sockets.on('connection',function (socket) {
 
                 console.log(rooms[roomno].first.name + ' plays first');
                 io.to(rooms[roomno].first.id).emit('connectToRoom', {
-                    descriptions: '1st player',num : num, sum: sum, playturn : true,
+                    descriptions: '1st player',num : num, sum: sum, playturn : true,turn :0,
                     room: roomno, username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"]
                 });
 
 
                 io.to(rooms[roomno].second.id).emit('connectToRoom', {
-                    descriptions: '2nd player',num : num , sum: sum, playturn : false,
+                    descriptions: '2nd player',num : num , sum: sum, playturn : false,turn :0,
                     room: roomno, username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
                 });
 
@@ -112,12 +112,12 @@ io.sockets.on('connection',function (socket) {
                 console.log(rooms[roomno].second.name + ' plays first');
 
                 io.to(rooms[roomno].second.id).emit('connectToRoom', {
-                    descriptions: '1st player',num : num, sum: sum, playturn : true,
+                    descriptions: '1st player',num : num, sum: sum, playturn : true,turn: 0,
                     room: roomno, username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
                 });
 
                 io.to(rooms[roomno].first.id).emit('connectToRoom', {
-                    descriptions: '2nd player',num : num , sum: sum, playturn : false,
+                    descriptions: '2nd player',num : num , sum: sum, playturn : false,turn:0,
                     room: roomno, username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"]
                 });
             }
@@ -170,7 +170,7 @@ io.sockets.on('connection',function (socket) {
         socket.on('showit', function(data) {
 
             console.log("player "+socket.id);
-
+            console.log("Hello");
             //if player==1 --> kon tee 1 just played   //keep score+time
             if (socket.id === rooms[data.room].first.id) {
                 io.to(rooms[data.room].second.id).emit('play', {
@@ -210,10 +210,14 @@ io.sockets.on('connection',function (socket) {
 
 
         });
+    socket.on('isclick',function(){
+        console.log('clicked');
+    });
 
 
 
-    socket.on('disconnect',function (data) {  //cut name out when disconnect
+    socket.on('disconnect',function (data) {  //cut name out
+        // when disconnect
         if(!socket.name) return;
         io.sockets.emit('broadcast',socket.name +' has left the chat');
         playerName.splice(playerName.indexOf(socket.name),1);

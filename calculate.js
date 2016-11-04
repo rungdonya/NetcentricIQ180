@@ -30,41 +30,41 @@ function  reset() {
     clicked = false;
     start();
 }
-function check(data){
-    var input = document.getElementById("ans").value;
-    var num=0;
-
-    console.log(input);
-    var inputarray =[];
-
-    for(i=0;i<input.length;i++){
-        inputarray[i]=input.substring(i,i+1);
-        if(inputarray[i].localeCompare(document.getElementById("num1").innerHTML)==0||
-            inputarray[i].localeCompare(document.getElementById("num2").innerHTML)==0||
-            inputarray[i].localeCompare(document.getElementById("num3").innerHTML)==0||
-            inputarray[i].localeCompare(document.getElementById("num4").innerHTML)==0||
-            inputarray[i].localeCompare(document.getElementById("num5").innerHTML)==0){
-            num++;
-        }
-    }
-    console.log(num)
-    if(num<5){
-        alert("Please use all the values we given!!")
-        return false;
-    }else if(num==5){
-        if(eval(input)==document.getElementById("realans").innerHTML){
-         //   alert("CORRECT!!!")
-              data = true;
-        //    socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
-        }else{
-            alert("WRONG!!!")
-        }
-    }else if(num>5){
-        alert("Please use each value once!!")
-        return false;
-    }
-
-}
+// function check(data){
+//     var input = document.getElementById("ans").value;
+//     var num=0;
+//
+//     console.log(input);
+//     var inputarray =[];
+//
+//     for(i=0;i<input.length;i++){
+//         inputarray[i]=input.substring(i,i+1);
+//         if(inputarray[i].localeCompare(document.getElementById("num1").innerHTML)==0||
+//             inputarray[i].localeCompare(document.getElementById("num2").innerHTML)==0||
+//             inputarray[i].localeCompare(document.getElementById("num3").innerHTML)==0||
+//             inputarray[i].localeCompare(document.getElementById("num4").innerHTML)==0||
+//             inputarray[i].localeCompare(document.getElementById("num5").innerHTML)==0){
+//             num++;
+//         }
+//     }
+//     console.log(num)
+//     if(num<5){
+//         alert("Please use all the values we given!!")
+//         return false;
+//     }else if(num==5){
+//         if(eval(input)==document.getElementById("realans").innerHTML){
+//          //   alert("CORRECT!!!")
+//               data = true;
+//         //    socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
+//         }else{
+//             alert("WRONG!!!")
+//         }
+//     }else if(num>5){
+//         alert("Please use each value once!!")
+//         return false;
+//     }
+//
+// }
 
 
 function plus() {
