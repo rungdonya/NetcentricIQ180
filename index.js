@@ -19,6 +19,11 @@ var rooms=[];
 
 io.sockets.on('connection',function (socket) {
 
+    //Try with other computer
+    var ip_address = client.connection.remoteAddress;
+    console.log(ip_address);
+
+
     socket.on('send username',function (data, callback) {   //receive user name -> check duplicate
         console.log(data + " is connecting");
         if(playerName.indexOf(data)!=-1) {
