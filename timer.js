@@ -1,6 +1,10 @@
 /**
  * Created by apple on 10/30/2016 AD.
  */
+var count;
+var t;
+var timeinterval
+
 function getTimeRemaining(endtime) {
 
     var t = Date.parse(endtime) - Date.parse(new Date());
@@ -21,7 +25,7 @@ function initializeClock(id, endtime) {
 
 
     function updateClock() {
-        var t = getTimeRemaining(endtime);
+        t = getTimeRemaining(endtime);
 
         minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
         secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
@@ -33,13 +37,23 @@ function initializeClock(id, endtime) {
     }
 
     updateClock();
-    var timeinterval = setInterval(updateClock, 1000);
+    timeinterval = setInterval(updateClock, 1000);
 }
-
+function countertime() {
+    count++;
+}
 function starttime() {
     var timeInMinutes = 1;
     var currentTime = Date.parse(new Date());
     var deadline = new Date(currentTime + timeInMinutes*60*1000);
     initializeClock('clockdiv', deadline);
     //document.getElementById("p").isDisabled = true;
+    count = 0;
+    myVar = setInterval(countertime, 1000);
+}
+
+function stoptime() {
+    clearInterval(timeinterval)
+    clearInterval(myVar);
+    return count;
 }

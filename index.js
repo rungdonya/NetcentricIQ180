@@ -244,6 +244,7 @@ io.sockets.on('connection',function (socket) {
                 rooms[data.room].second["score"] += 1;
             }
         }
+
         socket.emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
             firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]
