@@ -229,9 +229,9 @@ io.sockets.on('connection',function (socket) {
         console.log('done');
         if(data.firstCorrect==data.secondCorrect){
             if(data.firstCorrect){
-                if(data.firstTime>=data.secondTime){
+                if(data.firstTime<=data.secondTime){
                     rooms[data.room].first["score"] += 1;
-                }else if(data.firstTime<data.secondTime){
+                }else if(data.firstTime>data.secondTime){
                     rooms[data.room].second["score"] += 1;
                 }
             }else{

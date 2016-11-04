@@ -26,7 +26,6 @@
         <p><b>INSERT YOUR NAME</b></p>
         <input id="username" type="text" placeholder="Please insert your name" >
         <button class="hide" id="play"></button>
-
     </header>
 </div>
 
@@ -96,6 +95,7 @@
     <header class="w3-container w3-padding-32 w3-center w3-margin-bottom">
         <img src="04de2e31234507.564a1d23645bf.gif">
         <h2> Wait for your opponent</h2>
+
     </header>
 
 </div>
@@ -336,12 +336,16 @@
         $(".ex6").show();
     });
 
+    $(".ex6 .hide").click(function(){
+        $(this).parents(".ex6").hide("slow");
+        $(".ex7").show();
+    });
+
     var time, score;
 
     $("#p").click(function(){
         $("#p").hide();
     });
-
 
     $(function(){
         $("#includedContent1").load("firstpage.html");
