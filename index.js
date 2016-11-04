@@ -224,7 +224,7 @@ io.sockets.on('connection',function (socket) {
         console.log('clicked');
     });
 
-    //After 2 players had played emitted diff page
+    //After 2 players had played --> emitted diff page
     socket.on('done', function(data){
         console.log('done');
         if(data.firstCorrect==data.secondCorrect){
@@ -245,6 +245,7 @@ io.sockets.on('connection',function (socket) {
             }
         }
 
+        console.log(rooms[data.room]);
         socket.emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
             firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]

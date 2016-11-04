@@ -14,14 +14,14 @@ h2{
     font-size: 80px;
 }
 h3{
-    font-family: "Raleway", sans-serif;
+    font-family: 'Life Savers', cursive;
     color: white;
     text-align: center;
-    font-size: 80px;
+    font-size: 250px;
 }
 
 p {
-    font-family: "Raleway", sans-serif;
+    font-family: 'Life Savers', cursive;
     font-size: 26px;
     text-align: center;
 }
@@ -29,23 +29,15 @@ p {
 
 body, html {height: 100%}
 body   {
-    background-color: #646464;
+    background-image : url('cb70161a4d89947f93a606f8b6ba7026.gif');
+    background-attachment : fixed;
+    background-repeat: no-repeat;
+    background-color: moccasin;
     min-height: 100%;
     background-position: center;
     background-size: cover;
 }
 
-
-
-.ex6{
-    background-image: url('game.jpg');
-    background-attachment : fixed;
-    background-repeat: no-repeat;
-    background-color: #646464;
-    min-height: 100%;
-    background-position: bottom left;
-    background-size: 80%;
-}
 
 
 #play{
@@ -224,5 +216,19 @@ h6{
     padding: 25px;
 }
 
+#replay{
+    background-image: url("8c78a3f2c9d0606bb2119ff4afd5c520.png");
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
+}
 
+#quit{
+    background-image: url("black-circle-close-button-png-5.png");
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
+}
 

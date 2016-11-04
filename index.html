@@ -22,6 +22,8 @@
         <!--<div id="includedContent1"></div>
         เดี๋ยวแก้ให้อีกที มีปัญหาอยู่
         -->
+        <h3><b>IQ180</b></h3>
+        <p><b>INSERT YOUR NAME</b></p>
         <input id="username" type="text" placeholder="Please insert your name" >
         <button class="hide" id="play"></button>
 
@@ -94,7 +96,6 @@
     <header class="w3-container w3-padding-32 w3-center w3-margin-bottom">
         <img src="04de2e31234507.564a1d23645bf.gif">
         <h2> Wait for your opponent</h2>
-        <button class="hide" id="play"></button>
     </header>
 
 </div>
@@ -148,15 +149,19 @@
 
 </div>
 
+
 <!--Winnerrr-->
 <div class="ex7">
     <header class="w3-container w3-padding-32 w3-center w3-opacity w3-margin-bottom">
-        <h7>YOU ARE THE WINNER!</h7>
+        <h2>The WINNER is</h2>
+        <h2>WINNER'S NAME</h2>
+        <h2>Score :</h2>
+        <button id="replay" class="replay" onclick="backtogame()"></button>
+        <button id="quit" class="quit" onclick="backtofirstpage()"></button>
 
 
     </header>
 </div>
-
 
         <script src="timer.js"></script>
 
@@ -349,6 +354,7 @@
         var input = document.getElementById("ans").value;
         var num=0;
         var correct;
+        var firstTime,secondTime,firstCorrect=false,secondCorrect=false;
 
         console.log(input);
         var inputarray =[];
@@ -375,11 +381,20 @@
                correct=true;
                 // data = true;
                 if(turn==1) {
-                    socket.emit('done', {
-                        room: roomno, time: time, score: score
-                    });
+                    secondTime = stoptime();
+                    secondCorrect = true;
+                    console.log(secondTime);
+                    socket.emit('done', {room: roomNum, time: secondTime, score: score,
+                        firstCorrect : firstCorrect, secondCorrect: secondCorrect});
+                    alert("Congratulation!!! You've solved the equation in"+secondTime+"sec");
                 }else if(turn ==0){
-                    socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
+                    firstTime = stoptime();
+                    console.log(firstTime);
+                    firstCorrect= true;
+                    socket.emit('showit',
+                            {room: roomNum, time: firstTime, sum: originalAns,
+                                num: originalProb, score: score,firstCorrect : firstCorrect, secondCorrect: secondCorrect});
+                    alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
                 }
                 // socket.emit('showit');
             }else{
@@ -391,10 +406,18 @@
             correct=false;
         }
 
-
-
-
     }
+
+    function backtogame(){
+        $(".ex7").hide("slow");
+        $(".ex6").show();
+    }
+
+    function backtofirstpage(){
+        $(".ex7").hide("slow");
+        $(".ex").show();
+    }
+
 </script>
 
 
