@@ -219,15 +219,14 @@ io.sockets.on('connection',function (socket) {
         //   socket.leave("room-"+roomno);
     });
 
-    socket.on('done',function(data){
-       console.log('done');
-    });
-
    
     socket.on('isclick',function(){
         console.log('clicked');
     });
+
+    //After 2 players had played emitted diff page
     socket.on('done', function(data){
+        console.log('done');
         if(data.firstCorrect==data.secondCorrect){
             if(data.firstCorrect){
                 if(data.firstTime>=data.secondTime){
