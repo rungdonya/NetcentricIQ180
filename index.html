@@ -278,6 +278,7 @@
         roomNum= data.room;
         originalProb = data.num;
         originalAns = data.sum;
+        turn = data.turn;
 
         if(data.playturn){
 
@@ -293,6 +294,9 @@
     });
 
     socket.on('play', function(data){
+
+        turn = data.turn;
+
         if(data.playturn){
             $(".ex5").hide("slow");
             console.log('player: '+data.username);
@@ -303,6 +307,10 @@
             p1name.html(data.username);
             p2name.html(data.opponent);
             start(data);starttime();
+        }else{
+            $(".ex6").hide("slow");
+            $(".ex5").show();
+            console.log('Wait for your opponent.... ');
         }
     });
 
@@ -367,7 +375,14 @@
                 //   alert("CORRECT!!!")
                correct=true;
                 // data = true;
-                socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
+                if(turn==1) {
+                    socket.emit('done', {
+                        room: roomno, time: time, score: score
+                    });
+                }else if(turn ==0){
+                    socket.emit('showit', {room: roomNum, sum: originalAns, num: originalProb });
+                }
+
                // socket.emit('showit');
             }else{
                 alert("WRONG!!!")
@@ -377,14 +392,8 @@
             //return false;
             correct=false;
         }
-        if(turn=0){
-            socket.emit('send ans', {num : num, sum: sum, room: roomno, time: time, score: score
-            });
-        }if(turn=1) {
-            socket.emit('done', {
-                room: roomno, time: time, score: score
-            });
-        }
+
+
 
 
     }

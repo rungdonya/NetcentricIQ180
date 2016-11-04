@@ -176,16 +176,16 @@ io.sockets.on('connection',function (socket) {
             //if player==1 --> kon tee 1 just played   //keep score+time
             if (socket.id === rooms[data.room].first.id) {
 
-                //emit to second player
+                //emit to second player ==> second play that enters the room
                 io.to(rooms[data.room].second.id).emit('play', {
                     descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true,
                     time: data.time, score: data.score, turn: 1, room: data.room,
                     username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
                 });
 
-                //emit to first player
-                io.to(rooms[data.room].second.id).emit('play', {
-                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true,
+                //emit to first player (waiting room) ==>  first player that enters the room
+                io.to(rooms[data.room].first.id).emit('play', {
+                    descriptions: '1st player', num: data.num, sum: data.sum, playturn: false,
                     time: data.time, score: data.score, turn: 1, room: data.room,
                     username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
                 });
@@ -200,6 +200,12 @@ io.sockets.on('connection',function (socket) {
                     username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"]
                 });
 
+                io.to(rooms[data.room].second.id).emit('play', {
+                    descriptions: '1st player', num: data.num, sum: data.sum, playturn: false,
+                    time: data.time, score: data.score, turn: 1, room: data.room,
+                    username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"]
+                });
+
                 console.log(rooms[data.room]);
                 console.log('2nd player turn');
             }
@@ -211,23 +217,10 @@ io.sockets.on('connection',function (socket) {
         //   socket.leave("room-"+roomno);
     });
 
-        socket.on('send ans', function(data) {
-            if (socket.id === rooms[data.room].first.id) {
-                io.to(rooms[data.room].second.id).emit('connectToRoom', {
-                    descriptions: '2nd player', num: data.num, sum: data.sum, playturn: true, turn: 1
-                });
-            }
+    socket.on('done',function(data){
+       console.log('done');
+    });
 
-            rooms[data.room].second.time= data.time;
-        });
-        socket.on('send ans', function(data) {
-            if (socket.id === rooms[data.room].first.id) {
-                rooms[data.room].second.time= data.time;
-                rooms[data.room].second.score= data.score;
-            }
-
-
-        });
     socket.on('isclick',function(){
         console.log('clicked');
     });
