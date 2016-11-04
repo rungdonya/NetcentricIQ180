@@ -220,14 +220,24 @@ io.sockets.on('connection',function (socket) {
             if(data.firstCorrect){
                 if(data.firstTime>=data.secondTime){
                     rooms[data.room].first["score"] += 1;
-                }else{
+                }else if(data.firstTime<data.secondTime){
                     rooms[data.room].second["score"] += 1;
                 }
             }else{
-
+                console.log("both fail to answer");
+            }
+        }else{
+            if(data.firstCorrect){
+                rooms[data.room].first["score"] += 1;
+            }else if(data.secondCorrect){
+                rooms[data.room].second["score"] += 1;
             }
         }
-    })
+        socket.emit('conclusion', {
+            room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
+            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]
+        });
+    });
 
 
 

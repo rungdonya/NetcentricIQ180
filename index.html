@@ -365,14 +365,7 @@
             //return false;
             correct=false;
         }
-        if(turn=0){
-            socket.emit('send ans', {num : num, sum: sum, room: roomno, time: time, score: score
-            });
-        }if(turn=1) {
-            socket.emit('done', {
-                room: roomno, time: time, score: score
-            });
-        }
+
 
 
     }
