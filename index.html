@@ -438,11 +438,13 @@
                     firstCorrect= 1;
                     socket.emit('showit',
                             {room: roomNum, time: firstTime, sum: originalAns,
-                                num: originalProb, score: score,firstCorrect : firstCorrect,secondCorrect: secondCorrect});
-                    console.log(firstCorrect+'&&&&'+secondCorrect);
+                                num: originalProb, score: score,firstCorrect : firstCorrect
+                                //,secondCorrect: secondCorrect
+                            });
 
                     alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
                 }
+                console.log(firstCorrect+'&&&&'+secondCorrect);
                 // socket.emit('showit');
             }else{
                 alert("WRONG!!!")
@@ -459,8 +461,9 @@
 
     function backtogame(){
         $(".ex7").hide("slow");
-        $(".ex6").show();
+      //  $(".ex6").show();
         socket.emit('continue',{room:roomNum, winner:winner,loser:loser,firstScore:winningScore,secondScore:losingScore });
+        console.log(winningScore+'<-win,lose->');
     }
 
     function backtofirstpage(){
