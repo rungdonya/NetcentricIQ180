@@ -18,7 +18,8 @@ var roomno=0;
 var rooms=[];
 
 io.sockets.on('connection',function (socket) {
-
+    var clientIpAddress = socket.request.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
+    console.log(' new request from : '+clientIpAddress);
     //Try with other computer
     //console.log(socket.handshake.address);
     //socket.connect(3000,'192.168.1.44');   why mai dai
