@@ -428,8 +428,9 @@
                     firstCorrect= 1;
                     socket.emit('showit',
                             {room: roomNum, time: firstTime, sum: originalAns,
-                                num: originalProb, score: score,firstCorrect : firstCorrect});, secondCorrect: secondCorrect
+                                num: originalProb, score: score,firstCorrect : firstCorrect,secondCorrect: secondCorrect});
                     console.log(firstCorrect+'&&&&'+secondCorrect);
+
                     alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
                 }
                 // socket.emit('showit');
