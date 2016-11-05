@@ -321,12 +321,17 @@
             console.log('Wait for your opponent.... ');
         }
     });
-    var roomno;
+    var roomno,winner,loser,winningScore,losingScore;
     socket.on('conclusion', function(data){
         $(".ex6").hide("slow");
         $(".ex5").hide("slow");
         $(".ex7").show();
-        winnerName.html(data.winner);
+        winner = data.winner;
+        loser = data.loser;
+        winningScore = data.winningScore;
+        losingScore = data.losingScore;
+
+        winnerName.html(winner);
         winnerScore.html('Score : '+data.firstScore + ' to '+data.secondScore);
         roomno = data.roomno;
     })
@@ -375,12 +380,12 @@
     $(function(){
         $("#includedContent2").load("calculate.html");
     });
-
+    var firstTime,secondTime,firstCorrect=0,secondCorrect=0;
     function check(){
         var input = document.getElementById("ans").value;
         var num=0;
         var correct;
-        var firstTime,secondTime,firstCorrect=false,secondCorrect=false;
+
 
         console.log(input);
         var inputarray =[];
@@ -410,19 +415,21 @@
                 //turn = 1 ==> second player turn, turn = 0 ==> first player turn
                 if(turn==1) {
                     secondTime = stoptime();
-                    secondCorrect = true;
+                    secondCorrect = 1;
                     console.log(secondTime);
-                    socket.emit('done', {room: roomNum, time: secondTime, score: score,
-                        firstCorrect : firstCorrect, secondCorrect: secondCorrect});
+                    socket.emit('done', {room: roomNum, time: secondTime, score: score,firstCorrect : firstCorrect,
+                         secondCorrect: secondCorrect});
+                    console.log(firstCorrect+'&'+secondCorrect);
                     alert("Congratulation!!! You've solved the equation in"+secondTime+"sec");
 
                 }else if(turn ==0){
                     firstTime = stoptime();
                     console.log(firstTime);
-                    firstCorrect= true;
+                    firstCorrect= 1;
                     socket.emit('showit',
                             {room: roomNum, time: firstTime, sum: originalAns,
-                                num: originalProb, score: score,firstCorrect : firstCorrect, secondCorrect: secondCorrect});
+                                num: originalProb, score: score,firstCorrect : firstCorrect});, secondCorrect: secondCorrect
+                    console.log(firstCorrect+'&&&&'+secondCorrect);
                     alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
                 }
                 // socket.emit('showit');
@@ -442,6 +449,7 @@
     function backtogame(){
         $(".ex7").hide("slow");
         $(".ex6").show();
+        socket.emit('continue',{room:roomNum, winner:winner,loser:loser,firstScore:winningScore,secondScore:losingScore });
     }
 
     function backtofirstpage(){

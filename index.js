@@ -131,17 +131,25 @@ io.sockets.on('connection',function (socket) {
             console.log(rooms[roomno]);
 
 
-            /*socket.on('continue',function (data) {
+            socket.on('continue',function (data) {
              send();
-             rooms[roomno].first.name = socket.data.winner;  //roomno pung nae nae
-             io.to(rooms[roomno].first.name).emit('connectToRoom', {
-             descriptions: '1st player',num : num, sum: sum, playturn : true
+             rooms[data.room].first["name"] = data.winner;
+             rooms[data.room].second["name"] = data.loser;
+             rooms[data.room].first["score"] = data.firstScore;
+             rooms[data.room].second["score"] = data.secondScore;
+
+             io.to(rooms[data.room].first.name).emit('connectToRoom', {
+                 descriptions: '1st player',num : num, sum: sum, playturn : true, turn :0,
+                 room: data.room, username :rooms[data.room].first["name"], opponent: rooms[data.room].second["name"],
+                 yourScore: rooms[data.room].first["score"] , opponentScore: rooms[data.room].second["score"]
              });
-             rooms[roomno].second.name = socket.data.looser;
-             io.to(rooms[roomno].second.id).emit('connectToRoom', {
-             descriptions: '2nd player',num : numnull , sum: 'x', playturn : false
+
+             io.to(rooms[data.room].second.id).emit('connectToRoom', {
+                 descriptions: '2nd player',num : num , sum: sum, playturn : false,turn:0,
+                 room: data.room, username :rooms[data.room].first["name"], opponent: rooms[data.room].second["name"],
+                 yourScore: rooms[data.room].second["score"], opponentScore: rooms[data.room].first["score"]
              });
-             });  */
+            });
 
             console.log('======================END=======================');
         }
@@ -203,33 +211,48 @@ io.sockets.on('connection',function (socket) {
 
     //After 2 players had played --> emitted diff page
     socket.on('done', function(data){
-        var winner,looser;
-        console.log('done');
+        var winner,loser,winningScore,losingScore;
+        console.log('done'+ data.firstCorrect+'...'+data.secondCorrect);
             if(data.firstCorrect==data.secondCorrect){
-                if(data.firstCorrect){
+                if(data.firstCorrect==1){
                     if(data.firstTime<=data.secondTime){
                         rooms[data.room].first["score"] += 1;
                         winner = rooms[data.room].first["name"];
-                        looser =  rooms[data.room].second["name"];
+                        winningScore = rooms[data.room].first["score"];
+                        loser =  rooms[data.room].second["name"];
+                        losingScore = rooms[data.room].second["score"];
+                        console.log('1'+ winningScore+ losingScore);
                     }else if(data.firstTime>data.secondTime){
                         rooms[data.room].second["score"] += 1;
                         winner =  rooms[data.room].second["name"];
-                        looser = rooms[data.room].first["name"];
+                        winningScore = rooms[data.room].second["score"];
+                        loser = rooms[data.room].first["name"];
+                        losingScore = rooms[data.room].first["score"];
+                        console.log('2'+ winningScore+ losingScore);
                 }
-                }else{
+                }else if(data.firstCorrect!=1){
                     console.log("both fail to answer");
-                    looser = rooms[data.room].first["name"] + "and" + rooms[data.room].second["name"];
+                    loser = rooms[data.room].first["name"] + "and" + rooms[data.room].second["name"];
                     winner = "there is no winner";
+                    winningScore = rooms[data.room].first["score"];
+                    losingScore = rooms[data.room].second["score"];
+                    console.log('3'+ winningScore+ losingScore);
                  }
-            }else{
-                if(data.firstCorrect){
+            }else if(data.firstCorrect!=data.secondCorrect) {
+                if(data.firstCorrect==1){
                     rooms[data.room].first["score"] += 1;
                     winner = rooms[data.room].first["name"];
-                    looser =  rooms[data.room].second["name"];
-                }else if(data.secondCorrect){
+                    winningScore = rooms[data.room].first["score"];
+                    loser =  rooms[data.room].second["name"];
+                    losingScore = rooms[data.room].second["score"];
+                    console.log('4'+ winningScore+ losingScore);
+                }else if(data.secondCorrect==1){
                     rooms[data.room].second["score"] += 1;
                     winner =  rooms[data.room].second["name"];
-                    looser = rooms[data.room].first["name"];
+                    winningScore = rooms[data.room].first["score"];
+                    loser = rooms[data.room].first["name"];
+                    losingScore = rooms[data.room].second["score"];
+                    console.log('5'+ winningScore+ losingScore);
                 }
             }
 
@@ -239,12 +262,14 @@ io.sockets.on('connection',function (socket) {
         //ต้องแก้ตัวแปรที่เก็บคนเล่นกับคนที่เข้าห้องใหม่นิดนึง
         io.to(rooms[data.room].first.id).emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
-            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, looser: looser
+            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, loser: loser,
+            winningScore: winningScore, losingScore: losingScore
         });
 
         io.to(rooms[data.room].second.id).emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
-            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, looser: looser
+            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, loser: loser,
+            winningScore: winningScore, losingScore: losingScore
         });
     });
 
