@@ -154,11 +154,12 @@
 <div class="ex7">
     <header class="w3-container w3-padding-32 w3-center w3-opacity w3-margin-bottom">
         <h2>The WINNER is</h2>
-        <h2>WINNER'S NAME</h2>
-        <h2>Score :</h2>
+        <h2 id = 'winnerName'>WINNER'S NAME</h2>
+        <h2 id="winnerScore">Score :</h2>
         <button id="replay" class="replay" onclick="backtogame()"></button>
-        <button id="quit" class="quit" onclick="backtofirstpage()"></button>
+        <button id="reset" class="quit"></button>
 
+        <!--onclick="backtofirstpage()-->
 
     </header>
 </div>
@@ -202,6 +203,8 @@
     var correct =false;
     var p1name = $('#p1name'),player1score = $('#player1score');
     var p2name = $('#p2name'),player2score = $('#player2score');
+    var winnerName = $('#winnerName'), winnerScore = $('#winnerScore');
+    var reset = $('#reset');
 
     //page 1
     $(document).ready(function(){
@@ -318,16 +321,22 @@
             console.log('Wait for your opponent.... ');
         }
     });
-
+    var roomno;
     socket.on('conclusion', function(data){
         $(".ex6").hide("slow");
         $(".ex5").hide("slow");
         $(".ex7").show();
-
+        winnerName.html(data.winner);
+        winnerScore.html('Score : '+data.firstScore + ' to '+data.secondScore);
+        roomno = data.roomno;
     })
     /* room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
      firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]*/
 
+    reset.click(function(){
+        socket.emit('reset',{room:roomno});
+
+    })
 
 
     $("#cha").click(function(){
@@ -351,6 +360,7 @@
     $(".ex6 .hide").click(function(){
         $(this).parents(".ex6").hide("slow");
         $(".ex7").show();
+
     });
 
     var time, score;

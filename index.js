@@ -129,34 +129,6 @@ io.sockets.on('connection',function (socket) {
                 });
             }
             console.log(rooms[roomno]);
-            //Send this event to everyone in the room.
-            //If there 2 ppl clicked button , emit sum
-
-            // if (io.nsps['/'].adapter.rooms["room-" + roomno].length == 2) {
-            //numnull = ['x','x','x','x','x','x'];
-
-
-           /* io.to(starterid).emit('connectToRoom', {
-                descriptions: '1st player',num : num, sum: sum, playturn : true,
-                room: roomno, firstplayer :rooms[roomno].first["name"],
-                firstplayerScore: rooms[roomno].first["score"],
-                secondplayer: rooms[roomno].second["name"],
-                secondplayerScore: rooms[roomno].second["score"]
-            });
-
-            console.log(roomno);
-
-            io.to(anotherid).emit('connectToRoom', {
-                descriptions: '2nd player',num : num , sum: sum, playturn : false,
-<<<<<<< Updated upstream
-                room: roomno, firstplayer :rooms[roomno].first["name"], firstplayerScore: rooms[roomno].first["score"],
-                secondplayer: rooms[roomno].second["name"] , secondplayerScore: rooms[roomno].second["score"]
-                //yung mai declare
-            });
-=======
-                room: roomno, firstplayer :rooms[roomno].first["name"], secondplayer: rooms[roomno].second["name"]
-            });*/
-
 
 
             /*socket.on('continue',function (data) {
@@ -276,6 +248,11 @@ io.sockets.on('connection',function (socket) {
         });
     });
 
+    socket.on('reset',function(){
+        rooms[roomno].first["id"] = socket.id;
+        rooms[roomno].first["name"] = socket.name;
+        rooms[roomno].first["score"] = 0;
+    });
 
 
     socket.on('disconnect',function (data) {  //cut name out
