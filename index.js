@@ -215,13 +215,16 @@ io.sockets.on('connection',function (socket) {
         console.log('done'+ data.firstCorrect+'...'+data.secondCorrect);
             if(data.firstCorrect==data.secondCorrect){
                 if(data.firstCorrect==1){
+
                     if(data.firstTime<=data.secondTime){
+
                         rooms[data.room].first["score"] += 1;
                         winner = rooms[data.room].first["name"];
                         winningScore = rooms[data.room].first["score"];
                         loser =  rooms[data.room].second["name"];
                         losingScore = rooms[data.room].second["score"];
                         console.log('1'+ winningScore+ losingScore);
+
                     }else if(data.firstTime>data.secondTime){
                         rooms[data.room].second["score"] += 1;
                         winner =  rooms[data.room].second["name"];
@@ -239,6 +242,7 @@ io.sockets.on('connection',function (socket) {
                     console.log('3'+ winningScore+ losingScore);
                  }
             }else if(data.firstCorrect!=data.secondCorrect) {
+
                 if(data.firstCorrect==1){
                     rooms[data.room].first["score"] += 1;
                     winner = rooms[data.room].first["name"];
@@ -246,6 +250,7 @@ io.sockets.on('connection',function (socket) {
                     loser =  rooms[data.room].second["name"];
                     losingScore = rooms[data.room].second["score"];
                     console.log('4'+ winningScore+ losingScore);
+
                 }else if(data.secondCorrect==1){
                     rooms[data.room].second["score"] += 1;
                     winner =  rooms[data.room].second["name"];
@@ -263,20 +268,24 @@ io.sockets.on('connection',function (socket) {
         io.to(rooms[data.room].first.id).emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
             firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, loser: loser,
-            winningScore: winningScore, losingScore: losingScore
+            winningScore: winningScore, losingScore: losingScore,
+            firstid:rooms[data.room].first.id,secondid:rooms[data.room].second.id
         });
 
         io.to(rooms[data.room].second.id).emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
             firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, loser: loser,
-            winningScore: winningScore, losingScore: losingScore
+            winningScore: winningScore, losingScore: losingScore,
+            firstid:rooms[data.room].first.id,secondid:rooms[data.room].second.id
         });
     });
 
-    socket.on('reset',function(){
-        rooms[roomno].first["id"] = socket.id;
-        rooms[roomno].first["name"] = socket.name;
-        rooms[roomno].first["score"] = 0;
+    socket.on('reset',function(data){
+        io.to(data.firstid).emit('back',{room: null});
+        io.to(data.secondid).emit('back',{room:null});
+        rooms[data.room] = null;
+        console.log(rooms[data.room]);
+        io.sockets.emit('broadcast','THE GAME HAD ENDED!!');
     });
 
 

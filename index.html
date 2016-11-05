@@ -157,9 +157,9 @@
         <h2 id = 'winnerName'>WINNER'S NAME</h2>
         <h2 id="winnerScore">Score :</h2>
         <button id="replay" class="replay" onclick="backtogame()"></button>
-        <button id="reset" class="quit"></button>
+        <button id="quit" class="quit"></button>
 
-        <!--onclick="backtofirstpage()-->
+
 
     </header>
 </div>
@@ -204,7 +204,8 @@
     var p1name = $('#p1name'),player1score = $('#player1score');
     var p2name = $('#p2name'),player2score = $('#player2score');
     var winnerName = $('#winnerName'), winnerScore = $('#winnerScore');
-    var reset = $('#reset');
+    var quit = $('#quit');
+    var player1id,player2id;
 
     //page 1
     $(document).ready(function(){
@@ -334,14 +335,23 @@
         winnerName.html(winner);
         winnerScore.html('Score : '+data.firstScore + ' to '+data.secondScore);
         roomno = data.roomno;
+
+        quit.click(function(){
+            socket.emit('reset',{room:roomno,firstid:data.firstid, secondid:data.secondid});
+        });
+
+        socket.on('back',function(data){
+            //if(data.room == null){
+            $(".ex7").hide("slow");
+            $(".ex2").show();
+            // }
+            //  console.log('back to chat');
+        });
+
     })
     /* room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
      firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]*/
 
-    reset.click(function(){
-        socket.emit('reset',{room:roomno});
-
-    })
 
 
     $("#cha").click(function(){
