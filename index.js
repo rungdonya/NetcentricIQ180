@@ -21,6 +21,7 @@ io.sockets.on('connection',function (socket) {
 
     //Try with other computer
     //console.log(socket.handshake.address);
+    //socket.connect(3000,'192.168.1.44');   why mai dai
 
     socket.on('send username',function (data, callback) {   //receive user name -> check duplicate
         console.log(data + " is connecting");
@@ -229,24 +230,35 @@ io.sockets.on('connection',function (socket) {
 
     //After 2 players had played --> emitted diff page
     socket.on('done', function(data){
+        var winner,looser;
         console.log('done');
             if(data.firstCorrect==data.secondCorrect){
                 if(data.firstCorrect){
                     if(data.firstTime<=data.secondTime){
                         rooms[data.room].first["score"] += 1;
-                }else if(data.firstTime>data.secondTime){
-                    rooms[data.room].second["score"] += 1;
+                        winner = rooms[data.room].first["name"];
+                        looser =  rooms[data.room].second["name"];
+                    }else if(data.firstTime>data.secondTime){
+                        rooms[data.room].second["score"] += 1;
+                        winner =  rooms[data.room].second["name"];
+                        looser = rooms[data.room].first["name"];
                 }
+                }else{
+                    console.log("both fail to answer");
+                    looser = rooms[data.room].first["name"] + "and" + rooms[data.room].second["name"];
+                    winner = "there is no winner";
+                 }
             }else{
-                console.log("both fail to answer");
+                if(data.firstCorrect){
+                    rooms[data.room].first["score"] += 1;
+                    winner = rooms[data.room].first["name"];
+                    looser =  rooms[data.room].second["name"];
+                }else if(data.secondCorrect){
+                    rooms[data.room].second["score"] += 1;
+                    winner =  rooms[data.room].second["name"];
+                    looser = rooms[data.room].first["name"];
+                }
             }
-        }else{
-            if(data.firstCorrect){
-                rooms[data.room].first["score"] += 1;
-            }else if(data.secondCorrect){
-                rooms[data.room].second["score"] += 1;
-            }
-        }
 
         console.log(rooms[data.room]);
 
@@ -254,12 +266,12 @@ io.sockets.on('connection',function (socket) {
         //ต้องแก้ตัวแปรที่เก็บคนเล่นกับคนที่เข้าห้องใหม่นิดนึง
         io.to(rooms[data.room].first.id).emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
-            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]
+            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, looser: looser
         });
 
         io.to(rooms[data.room].second.id).emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
-            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]
+            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"], winner: winner, looser: looser
         });
     });
 
