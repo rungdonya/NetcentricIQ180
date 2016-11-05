@@ -280,7 +280,7 @@
 
     socket.on('connectToRoom',function(data){
         $(".ex3").hide("slow");
-
+        $(".ex7").hide("slow");
         console.log(data.username);
         console.log(data.opponent);
 
@@ -290,7 +290,6 @@
         turn = data.turn;
 
         if(data.playturn){
-
             $(".ex6").show();
             //random problem
             p1name.html(data.username);
@@ -458,9 +457,12 @@
 
 
     function backtogame(){
-        $(".ex7").hide("slow");
-        $(".ex6").show();
-        socket.emit('continue',{room:roomNum, winner:winner,loser:loser,firstScore:winningScore,secondScore:losingScore });
+        socket.emit('continue',{room:roomNum, winner:winner,loser:loser,
+                        firstScore:winningScore,secondScore:losingScore });
+
+      //  $(".ex7").hide("slow");
+      //  $(".ex6").show();
+
     }
 
     function backtofirstpage(){
