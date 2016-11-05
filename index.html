@@ -319,6 +319,15 @@
         }
     });
 
+    socket.on('conclusion', function(data){
+        $(".ex6").hide("slow");
+        $(".ex5").hide("slow");
+        $(".ex7").show();
+
+    })
+    /* room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
+     firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]*/
+
 
 
     $("#cha").click(function(){
@@ -330,6 +339,7 @@
         $(this).parents(".ex4").hide("slow");
         $(".ex5").show();
     });
+
 
     $(".ex5 .hide").click(function(){
         $(this).parents(".ex5").hide("slow");
@@ -386,6 +396,8 @@
                 //   alert("CORRECT!!!")
                correct=true;
                 // data = true;
+
+                //turn = 1 ==> second player turn, turn = 0 ==> first player turn
                 if(turn==1) {
                     secondTime = stoptime();
                     secondCorrect = true;
@@ -393,6 +405,7 @@
                     socket.emit('done', {room: roomNum, time: secondTime, score: score,
                         firstCorrect : firstCorrect, secondCorrect: secondCorrect});
                     alert("Congratulation!!! You've solved the equation in"+secondTime+"sec");
+
                 }else if(turn ==0){
                     firstTime = stoptime();
                     console.log(firstTime);
@@ -413,6 +426,8 @@
         }
 
     }
+
+
 
     function backtogame(){
         $(".ex7").hide("slow");

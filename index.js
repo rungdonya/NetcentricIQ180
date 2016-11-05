@@ -20,9 +20,7 @@ var rooms=[];
 io.sockets.on('connection',function (socket) {
 
     //Try with other computer
-    var ip_address = client.connection.remoteAddress;
-    console.log(ip_address);
-
+    //console.log(socket.handshake.address);
 
     socket.on('send username',function (data, callback) {   //receive user name -> check duplicate
         console.log(data + " is connecting");
@@ -232,10 +230,10 @@ io.sockets.on('connection',function (socket) {
     //After 2 players had played --> emitted diff page
     socket.on('done', function(data){
         console.log('done');
-        if(data.firstCorrect==data.secondCorrect){
-            if(data.firstCorrect){
-                if(data.firstTime<=data.secondTime){
-                    rooms[data.room].first["score"] += 1;
+            if(data.firstCorrect==data.secondCorrect){
+                if(data.firstCorrect){
+                    if(data.firstTime<=data.secondTime){
+                        rooms[data.room].first["score"] += 1;
                 }else if(data.firstTime>data.secondTime){
                     rooms[data.room].second["score"] += 1;
                 }
@@ -251,7 +249,15 @@ io.sockets.on('connection',function (socket) {
         }
 
         console.log(rooms[data.room]);
-        socket.emit('conclusion', {
+
+
+        //ต้องแก้ตัวแปรที่เก็บคนเล่นกับคนที่เข้าห้องใหม่นิดนึง
+        io.to(rooms[data.room].first.id).emit('conclusion', {
+            room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
+            firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]
+        });
+
+        io.to(rooms[data.room].second.id).emit('conclusion', {
             room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
             firstScore: rooms[roomno].first["score"], secondScore: rooms[roomno].second["score"]
         });
