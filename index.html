@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Life+Savers" rel="stylesheet">
     <link rel="stylesheet" href="/lib/w3-theme-blue-grey.css">
     <link rel="stylesheet" href="style.css">
-    <embed src="themesong.mp3" width="0" height="0" loop="true" autostart="true"></embed>
+    <!--embed src="themesong.mp3" width="0" height="0" loop="true" autostart="true"></embed-->
     <script src="http://www.w3schools.com/lib/w3data.js"></script>
 
 </head>
@@ -157,7 +157,7 @@
         <h2>The WINNER is</h2>
         <h2 id = 'winnerName'>WINNER'S NAME</h2>
         <h2 id="winnerScore">Score :</h2>
-        <button id="replay" class="replay" onclick="backtogame()"></button>
+        <button id="replay" class="replay""></button>
         <button id="quit" class="quit"></button>
 
 
@@ -195,7 +195,7 @@
     var $name = $('');
     var $listofplayer = $('#listofplayer');
     var $error = $('#error');
-    var $room = $('#room');
+    //var $room = $('#room');
     var $WelcomeUser = $('#WelcomeUser');
     var $submitmsg = $('#submitmsg');
     var $usermsg = $('#usermsg');
@@ -205,8 +205,9 @@
     var p1name = $('#p1name'),player1score = $('#player1score');
     var p2name = $('#p2name'),player2score = $('#player2score');
     var winnerName = $('#winnerName'), winnerScore = $('#winnerScore');
-    var quit = $('#quit');
-    var player1id,player2id, rooms;
+    var quit = $('#quit'),replay=$('#replay');
+    var player1id,player2id, rooms,firstCorrect,secondCorrect;
+    var firstTime,secondTime,roomno,winner,loser,winningScore,losingScore;
 
     //page 1
     $(document).ready(function(){
@@ -285,6 +286,7 @@
         console.log(data.username);
         console.log(data.opponent);
 
+        rooms = data.rooms;
         roomNum= data.room;
         originalProb = data.num;
         originalAns = data.sum;
@@ -295,6 +297,7 @@
             //random problem
             p1name.html(data.username);
             p2name.html(data.opponent);
+
             start(data);starttime();
 
         }else{
@@ -306,6 +309,9 @@
 
         turn = data.turn;
         rooms = data.rooms
+        firstCorrect = data.firstCorrect;
+        secondCorrect = data.secondCorrect
+        firstTime =  data.firstTime;
 
         if(data.playturn){
             $(".ex5").hide("slow");
@@ -324,7 +330,7 @@
         }
     });
 
-    var roomno,winner,loser,winningScore,losingScore;
+
 
     socket.on('conclusion', function(data){
         $(".ex6").hide("slow");
@@ -351,6 +357,11 @@
             // }
             //  console.log('back to chat');
         });
+
+        replay.click(function(data){
+            socket.emit('continue',{room:roomNum, winner:winner,loser:loser,
+                winningScore:winningScore,losingScore:losingScore,rooms:rooms });
+        })
 
     })
     /* room: roomno, firstName: rooms[roomno].first["name"], secondName: rooms[roomno].second["name"],
@@ -395,13 +406,12 @@
         $("#includedContent2").load("calculate.html");
     });
 
-    var firstTime,secondTime,firstCorrect=0,secondCorrect=0;
+
    //firstTime == time of first player
     function check(){
         var input = document.getElementById("ans").value;
         var num=0;
         var correct;
-
 
         console.log(input);
         var inputarray =[];
@@ -434,7 +444,7 @@
                     secondTime = stoptime();
                     secondCorrect = 1;
                     console.log(secondTime);
-                    socket.emit('done', {room: roomNum, time: secondTime, score: score,firstCorrect : firstCorrect,
+                    socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
                          secondCorrect: secondCorrect, rooms:rooms});
                     console.log(firstCorrect+'&'+secondCorrect);
                     alert("Congratulation!!! You've solved the equation in"+secondTime+"sec");
@@ -444,10 +454,12 @@
                     firstTime = stoptime();
                     console.log(firstTime);
                     firstCorrect= 1;
+                    secondCorrect=0;
                     socket.emit('showit',
-                            {room: roomNum, time: firstTime, sum: originalAns,
-                                num: originalProb, score: score,firstCorrect : firstCorrect,
+                            {room: roomNum, firstTime: firstTime, sum: originalAns,
+                                num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
                                 secondCorrect: secondCorrect,rooms:rooms});
+                    // , score: score ==> didn't use this
                     console.log(firstCorrect+'&&&&'+secondCorrect);
 
                     alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
@@ -467,8 +479,7 @@
 
 
     function backtogame(){
-        socket.emit('continue',{room:roomNum, winner:winner,loser:loser,
-                        firstScore:winningScore,secondScore:losingScore,rooms:rooms });
+
 
       //  $(".ex7").hide("slow");
       //  $(".ex6").show();
