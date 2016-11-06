@@ -202,7 +202,7 @@ io.sockets.on('connection',function (socket) {
                     firstTime: data.firstTime, turn: 1, room: data.room, rooms: rooms[roomno],
                     username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"],
                     firstCorrect : data.firstCorrect, secondCorrect : data.secondCorrect,
-                    yourScore: data.rooms.second["score"], opponentScore: data.rooms.first["score"]
+                    yourScore: rooms[data.room].second["score"], opponentScore: rooms[data.room].first["score"]
                 });
 
                 //emit to first player (waiting room) ==>  first player that enters the room
@@ -211,7 +211,7 @@ io.sockets.on('connection',function (socket) {
                     firstTime: data.firstTime, turn: 1, room: data.room, rooms: rooms[roomno],
                     username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"],
                     firstCorrect : data.firstCorrect, secondCorrect : data.secondCorrect,
-                    yourScore: data.rooms.first["score"], opponentScore: data.rooms.second["score"]
+                    yourScore: rooms[data.room].first["score"], opponentScore: rooms[data.room].second["score"]
                 });
 
                 console.log(rooms[data.room]);
@@ -225,7 +225,7 @@ io.sockets.on('connection',function (socket) {
                     firstTime: data.firstTime, turn: 1, room: data.room, rooms: rooms[roomno],
                     username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"],
                     firstCorrect : data.firstCorrect, secondCorrect : data.secondCorrect,
-                    yourScore: data.rooms.second["score"], opponentScore: data.rooms.first["score"]
+                    yourScore: rooms[data.room].second["score"], opponentScore: rooms[data.room].first["score"]
                 });
 
                 io.to(rooms[data.room].second.id).emit('play', {
@@ -233,7 +233,7 @@ io.sockets.on('connection',function (socket) {
                     firstTime: data.firstTime, turn: 1, room: data.room, rooms: rooms[roomno],
                     username :rooms[roomno].second["name"], opponent: rooms[roomno].first["name"],
                     firstCorrect : data.firstCorrect, secondCorrect : data.secondCorrect,
-                    yourScore: data.rooms.first["score"], opponentScore: data.rooms.second["score"]
+                    yourScore: rooms[data.room].first["score"], opponentScore:rooms[data.room].second["score"]
                 });
                 console.log('2nd player turn');
             }
