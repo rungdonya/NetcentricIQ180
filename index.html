@@ -292,6 +292,8 @@
         originalAns = data.sum;
         turn = data.turn;
 
+        resetTime();
+
         if(data.playturn){
             $(".ex6").show();
             //random problem
@@ -312,6 +314,7 @@
         firstCorrect = data.firstCorrect;
         secondCorrect = data.secondCorrect
         firstTime =  data.firstTime;
+        resetTime();
 
         if(data.playturn){
             $(".ex5").hide("slow");

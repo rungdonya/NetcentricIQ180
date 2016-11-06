@@ -51,10 +51,9 @@ function starttime() {
     count = 0;
     myVar = setInterval(countertime, 1000);
 }
-function restarttime() {
+function resetTime() {
     clearInterval(timeinterval);
     timeInMinutes=0;
-    srarttime();
 }
 
 function stoptime() {
