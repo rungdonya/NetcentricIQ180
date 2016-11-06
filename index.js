@@ -185,7 +185,7 @@ io.sockets.on('connection',function (socket) {
         socket.on('timesup',function(data){
             console.log(''+data.timesup);
             if(data.timesup){
-                socket.emit('changePlayer',{timesup : data.timesup});
+                socket.emit('changePlayer',{timesup: data.timesup});
             }
         });
 
@@ -209,7 +209,7 @@ io.sockets.on('connection',function (socket) {
                 io.to(rooms[data.room].first.id).emit('play', {
                     descriptions: '1st player', num: data.num, sum: data.sum, playturn: false,
                     firstTime: data.firstTime, turn: 1, room: data.room, rooms: rooms[roomno],
-                        username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"],
+                    username :rooms[roomno].first["name"], opponent: rooms[roomno].second["name"],
                     firstCorrect : data.firstCorrect, secondCorrect : data.secondCorrect,
                     yourScore: rooms[data.room].first["score"], opponentScore: rooms[data.room].second["score"]
                 });
@@ -252,7 +252,6 @@ io.sockets.on('connection',function (socket) {
         console.log('clicked');
     });
 
-    //After 2 players had played --> emitted diff page
     socket.on('done', function(data){
         var winner,loser,winningScore,losingScore;
 
@@ -308,8 +307,8 @@ io.sockets.on('connection',function (socket) {
                 //firstCorrect = first player ==>rooms[roomno].second
                 if (data.firstCorrect == 1) {
 
-                    scores = rooms[data.room].first.score +1;
-                    rooms[data.room].first["score"] = scores;
+                    scores = rooms[data.room].second.score +1;
+                    rooms[data.room].second["score"] = scores;
 
                     winner = rooms[data.room].second["name"];
                     winningScore = rooms[data.room].second["score"];
@@ -319,8 +318,8 @@ io.sockets.on('connection',function (socket) {
                     console.log('4' + winningScore + losingScore);
 
                 } else if (data.secondCorrect == 1) {
-                    scores = rooms[data.room].second.score +1;
-                    rooms[data.room].second["score"] = scores;
+                    scores = rooms[data.room].first.score +1;
+                    rooms[data.room].first["score"] = scores;
 
 
                     winner = rooms[data.room].first["name"];
@@ -332,7 +331,7 @@ io.sockets.on('connection',function (socket) {
                 }
             }
 
-         //second player is the second player that enters the room
+            //second player is the second player that enters the room
         }else if(socket.id == rooms[data.room].second["id"]){
 
             if (data.firstCorrect == data.secondCorrect) {
