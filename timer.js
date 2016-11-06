@@ -3,7 +3,9 @@
  */
 var count;
 var t;
-var timeinterval
+var timeinterval;
+var timeInMinutes;
+var timesup = false;
 
 function getTimeRemaining(endtime) {
 
@@ -33,6 +35,8 @@ function initializeClock(id, endtime) {
         if (t.total <= 0) {
             clearInterval(timeinterval);
             window.alert("time's up");
+            timesup =true;
+            socket.emit('timesup',{timesup:timesup});
         }
     }
 
@@ -42,14 +46,19 @@ function initializeClock(id, endtime) {
 function countertime() {
     count++;
 }
+
 function starttime() {
-    var timeInMinutes = 1;
+    timeInMinutes = 1;
     var currentTime = Date.parse(new Date());
     var deadline = new Date(currentTime + timeInMinutes*60*1000);
     initializeClock('clockdiv', deadline);
-    //document.getElementById("p").isDisabled = true;
     count = 0;
     myVar = setInterval(countertime, 1000);
+}
+function resetTime() {
+    clearInterval(timeinterval);
+    timeInMinutes=0;
+    count=0;
 }
 
 function stoptime() {
