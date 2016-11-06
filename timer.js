@@ -48,11 +48,11 @@ function countertime() {
 }
 
 function starttime() {
+    count = 0;
     timeInMinutes = 1;
     var currentTime = Date.parse(new Date());
     var deadline = new Date(currentTime + timeInMinutes*60*1000);
     initializeClock('clockdiv', deadline);
-    count = 0;
     myVar = setInterval(countertime, 1000);
 }
 function resetTime() {

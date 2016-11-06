@@ -505,6 +505,7 @@
 
                     //sencond player time
                     secondTime = stoptime();
+                    resetTime();
                     secondCorrect = 1;
                     console.log(secondTime);
                     socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
@@ -515,6 +516,7 @@
                 }else if(turn ==0){
                     //first player time
                     firstTime = stoptime();
+                    resetTime();
                     console.log(firstTime);
                     firstCorrect= 1;
                     secondCorrect=0;
