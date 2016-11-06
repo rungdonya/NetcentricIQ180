@@ -3,7 +3,7 @@
  */
 var count;
 var t;
-var timeinterval;
+var timeinterval,myVar;
 var timeInMinutes;
 var timesup = false;
 

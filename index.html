@@ -292,7 +292,7 @@
         originalProb = data.num;
         originalAns = data.sum;
         turn = data.turn;
-
+        resetTime();
         if(data.playturn){
             $(".ex6").show();
             //random problem
@@ -300,9 +300,8 @@
             p2name.html(data.opponent);
             player1score.html(data.yourScore);
             player2score.html(data.opponentScore);
-            resetTime();
-            start(data);starttime();
 
+            start(data);starttime();
 
         }else{
             $(".ex5").show();
@@ -312,7 +311,6 @@
     socket.on('changePlayer',function(data){
         if(data.timesup){
             console.log('YOO');
-
             if(turn==1) {
                 stoptime();resetTime();
                 secondTime = 60;
@@ -358,8 +356,6 @@
             p2name.html(data.opponent);
             player1score.html(data.yourScore);
             player2score.html(data.opponentScore);
-
-            resetTime();
             start(data);starttime();
 //            socket.on('changePlayer',function(data){
 //               if(data.timesup){
@@ -399,8 +395,6 @@
             console.log('Wait for your opponent.... ');
         }
     });
-
-
 
     socket.on('conclusion', function(data){
         $(".ex6").hide("slow");
@@ -536,20 +530,17 @@
 
                     alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
                 }
-                // socket.emit('showit');
             }else{
                 alert("WRONG!!!")
             }
         }else if(num>5){
             alert("Please use each value once!!")
-            //return false;
-            correct=false;
+
         }
 
     }
 
     function backtofirstpage(){
-
         $(".ex7").hide("slow");
         $(".ex").show();
     }
