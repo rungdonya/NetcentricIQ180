@@ -208,6 +208,7 @@
     var quit = $('#quit'),replay=$('#replay');
     var player1id,player2id, rooms,firstCorrect,secondCorrect;
     var firstTime,secondTime,roomno,winner,loser,winningScore,losingScore;
+    var timesup =false;
 
     //page 1
     $(document).ready(function(){
@@ -292,15 +293,43 @@
         originalAns = data.sum;
         turn = data.turn;
 
-        resetTime();
-
         if(data.playturn){
             $(".ex6").show();
             //random problem
             p1name.html(data.username);
             p2name.html(data.opponent);
-
+            player1score.html(data.yourScore);
+            player2score.html(data.opponentScore);
+            resetTime();
             start(data);starttime();
+
+            socket.on('changePlayer',function(data){
+                if(data.timesup){
+                    console.log('YOO');
+                    if(turn==1) {
+                        secondTime = 60;
+                        secondCorrect = 0;
+                        console.log(secondTime);
+                        socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
+                            secondCorrect: secondCorrect, rooms:rooms});
+                        console.log(firstCorrect+'&'+secondCorrect);
+
+                    }else if(turn ==0){
+                        //first player time
+                        firstTime = 60;
+                        console.log(firstTime);
+                        firstCorrect= 0;
+                        secondCorrect=0;
+                        socket.emit('showit',
+                                {room: roomNum, firstTime: firstTime, sum: originalAns,
+                                    num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
+                                    secondCorrect: secondCorrect,rooms:rooms});
+                        // , score: score ==> didn't use this
+
+                        console.log(firstCorrect+'&&&&'+secondCorrect);
+                    }
+                }
+            });
 
         }else{
             $(".ex5").show();
@@ -314,18 +343,48 @@
         firstCorrect = data.firstCorrect;
         secondCorrect = data.secondCorrect
         firstTime =  data.firstTime;
-        resetTime();
 
         if(data.playturn){
             $(".ex5").hide("slow");
             console.log('player: '+data.username);
             console.log('opponent: '+data.opponent);
-
             $(".ex6").show();
             //random problem
             p1name.html(data.username);
             p2name.html(data.opponent);
+            player1score.html(data.yourScore);
+            player2score.html(data.opponentScore);
+            resetTime();
             start(data);starttime();
+
+            socket.on('changePlayer',function(data){
+               if(data.timesup){
+                   console.log('YOO');
+                   if(turn==1) {
+                       secondTime = 60;
+                       secondCorrect = 0;
+                       console.log(secondTime);
+                       socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
+                           secondCorrect: secondCorrect, rooms:rooms});
+                       console.log(firstCorrect+'&'+secondCorrect);
+
+                   }else if(turn ==0){
+                       //first player time
+                       firstTime = 60;
+                       console.log(firstTime);
+                       firstCorrect= 0;
+                       secondCorrect=0;
+                       socket.emit('showit',
+                               {room: roomNum, firstTime: firstTime, sum: originalAns,
+                                   num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
+                                   secondCorrect: secondCorrect,rooms:rooms});
+                       // , score: score ==> didn't use this
+
+                       console.log(firstCorrect+'&&&&'+secondCorrect);
+                   }
+               }
+            });
+
         }else{
             $(".ex6").hide("slow");
             $(".ex5").show();
@@ -410,6 +469,7 @@
     });
 
 
+
    //firstTime == time of first player
     function check(){
         var input = document.getElementById("ans").value;
@@ -438,9 +498,6 @@
         }else if(num==5){
             if(eval(input)==document.getElementById("realans").innerHTML){
                 //   alert("CORRECT!!!")
-               correct=true;
-                // data = true;
-
                 //turn = 1 ==> second player turn, turn = 0 ==> first player turn
                 if(turn==1) {
                     //sencond player time
@@ -463,6 +520,7 @@
                                 num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
                                 secondCorrect: secondCorrect,rooms:rooms});
                     // , score: score ==> didn't use this
+
                     console.log(firstCorrect+'&&&&'+secondCorrect);
 
                     alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
