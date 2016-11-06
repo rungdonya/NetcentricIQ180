@@ -293,6 +293,7 @@ io.sockets.on('connection',function (socket) {
                         console.log('2' + winningScore + losingScore);
                     }
                 } else if (data.firstCorrect != 1) {
+
                     console.log("both fail to answer");
                     loser = rooms[data.room].first["name"] + "and" + rooms[data.room].second["name"];
                     losingScore = rooms[data.room].second["score"];
@@ -369,7 +370,7 @@ io.sockets.on('connection',function (socket) {
                     loser = rooms[data.room].first["name"] + "and" + rooms[data.room].first["name"];
                     losingScore = rooms[data.room].first["score"];
 
-                    winner = "there is no winner";
+                    winner = rooms[data.room].second["name"];
                     winningScore = rooms[data.room].second["score"];
 
                     console.log('3' + winningScore + losingScore);
