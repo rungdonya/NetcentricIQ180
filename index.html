@@ -303,36 +303,40 @@
             resetTime();
             start(data);starttime();
 
-            socket.on('changePlayer',function(data){
-                if(data.timesup){
-                    console.log('YOO');
-                    if(turn==1) {
-                        secondTime = 60;
-                        secondCorrect = 0;
-                        console.log(secondTime);
-                        socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
-                            secondCorrect: secondCorrect, rooms:rooms});
-                        console.log(firstCorrect+'&'+secondCorrect);
-
-                    }else if(turn ==0){
-                        //first player time
-                        firstTime = 60;
-                        console.log(firstTime);
-                        firstCorrect= 0;
-                        secondCorrect=0;
-                        socket.emit('showit',
-                                {room: roomNum, firstTime: firstTime, sum: originalAns,
-                                    num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
-                                    secondCorrect: secondCorrect,rooms:rooms});
-                        // , score: score ==> didn't use this
-
-                        console.log(firstCorrect+'&&&&'+secondCorrect);
-                    }
-                }
-            });
 
         }else{
             $(".ex5").show();
+        }
+    });
+
+    socket.on('changePlayer',function(data){
+        if(data.timesup){
+            console.log('YOO');
+
+            if(turn==1) {
+                stoptime();resetTime();
+                secondTime = 60;
+                secondCorrect = 0;
+                console.log(secondTime);
+                socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
+                    secondCorrect: secondCorrect, rooms:rooms});
+                console.log(firstCorrect+'&'+secondCorrect);
+
+            }else if(turn ==0){
+                //first player time
+                stoptime();resetTime();
+                firstTime = 60;
+                console.log(firstTime);
+                firstCorrect= 0;
+                secondCorrect=0;
+                socket.emit('showit',
+                        {room: roomNum, firstTime: firstTime, sum: originalAns,
+                            num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
+                            secondCorrect: secondCorrect,rooms:rooms});
+                // , score: score ==> didn't use this
+
+                console.log(firstCorrect+'&&&&'+secondCorrect);
+            }
         }
     });
 
@@ -354,38 +358,40 @@
             p2name.html(data.opponent);
             player1score.html(data.yourScore);
             player2score.html(data.opponentScore);
+
             resetTime();
             start(data);starttime();
-
-            socket.on('changePlayer',function(data){
-               if(data.timesup){
-                   stoptime();resetTime();
-                   console.log('YOO');
-                   if(turn==1) {
-                       secondTime = 60;
-                       secondCorrect = 0;
-                       console.log(secondTime);
-                       socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
-                           secondCorrect: secondCorrect, rooms:rooms});
-                       console.log(firstCorrect+'&'+secondCorrect);
-
-                   }else if(turn ==0){
-                       //first player time
-                       stoptime(); resetTime();
-                       firstTime = 60;
-                       console.log(firstTime);
-                       firstCorrect= 0;
-                       secondCorrect=0;
-                       socket.emit('showit',
-                               {room: roomNum, firstTime: firstTime, sum: originalAns,
-                                   num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
-                                   secondCorrect: secondCorrect,rooms:rooms});
-                       // , score: score ==> didn't use this
-
-                       console.log(firstCorrect+'&&&&'+secondCorrect);
-                   }
-               }
-            });
+//            socket.on('changePlayer',function(data){
+//               if(data.timesup){
+//                   stoptime();resetTime();
+//                   console.log('YOO');
+//                   if(turn==1) {
+//                       secondTime = 60;
+//                       secondCorrect = 0;
+//                       console.log(secondTime);
+//                       socket.emit('done', {room: roomNum, firstTime:firstTime, secondTime: secondTime, firstCorrect : firstCorrect,
+//                           secondCorrect: secondCorrect, rooms:rooms});
+//                       console.log(firstCorrect+'&'+secondCorrect);
+//
+//                   }else if(turn ==0){
+//                       //first player time
+//                       stoptime(); resetTime();
+//                       firstTime = 60;
+//                       console.log(firstTime);
+//                       firstCorrect= 0;
+//                       secondCorrect=0;
+//                       socket.emit('showit',
+//                               {room: roomNum, firstTime: firstTime, sum: originalAns,
+//                                   num: originalProb,firstCorrect : firstCorrect,firstTime :firstTime,
+//                                   secondCorrect: secondCorrect,rooms:rooms});
+//                       // , score: score ==> didn't use this
+//
+//                       console.log(firstCorrect+'&&&&'+secondCorrect);
+//                   }
+//               }else{
+//                   console.log('whyyyyyy');
+//               }
+//            });
 
         }else{
             $(".ex6").hide("slow");
@@ -403,6 +409,7 @@
 
         winner = data.winner;
         loser = data.loser;
+
         winningScore = data.winningScore;
         losingScore = data.losingScore;
 
@@ -502,7 +509,6 @@
                 //   alert("CORRECT!!!")
                 //turn = 1 ==> second player turn, turn = 0 ==> first player turn
                 if(turn==1) {
-
                     //sencond player time
                     secondTime = stoptime();
                     resetTime();

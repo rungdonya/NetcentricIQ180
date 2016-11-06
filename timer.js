@@ -43,6 +43,7 @@ function initializeClock(id, endtime) {
     updateClock();
     timeinterval = setInterval(updateClock, 1000);
 }
+
 function countertime() {
     count++;
 }
@@ -55,9 +56,11 @@ function starttime() {
     initializeClock('clockdiv', deadline);
     myVar = setInterval(countertime, 1000);
 }
+
 function resetTime() {
     clearInterval(timeinterval);
-    timeInMinutes=0;
+    clearInterval(myVar);
+    timeInMinutes=1;
     count=0;
 }
 
