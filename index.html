@@ -359,6 +359,7 @@
 
             socket.on('changePlayer',function(data){
                if(data.timesup){
+                   stoptime();resetTime();
                    console.log('YOO');
                    if(turn==1) {
                        secondTime = 60;
@@ -370,6 +371,7 @@
 
                    }else if(turn ==0){
                        //first player time
+                       stoptime(); resetTime();
                        firstTime = 60;
                        console.log(firstTime);
                        firstCorrect= 0;
@@ -500,6 +502,7 @@
                 //   alert("CORRECT!!!")
                 //turn = 1 ==> second player turn, turn = 0 ==> first player turn
                 if(turn==1) {
+
                     //sencond player time
                     secondTime = stoptime();
                     secondCorrect = 1;
