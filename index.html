@@ -309,6 +309,7 @@
     });
 
     socket.on('changePlayer',function(data){
+        if(socket.id==rooms[data.room])
         if(data.timesup){
             console.log('YOO');
             if(turn==1) {
@@ -320,7 +321,7 @@
                     secondCorrect: secondCorrect, rooms:rooms});
                 console.log(firstCorrect+'&'+secondCorrect);
 
-            }else if(turn ==0){
+            }else if(turn==0){
                 //first player time
                 stoptime();resetTime();
                 firstTime = 60;
