@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Life+Savers" rel="stylesheet">
     <link rel="stylesheet" href="/lib/w3-theme-blue-grey.css">
     <link rel="stylesheet" href="style.css">
+    <embed src="themesong.mp3" width="0" height="0" loop="true" autostart="true"></embed>
     <script src="http://www.w3schools.com/lib/w3data.js"></script>
 
 </head>
@@ -205,7 +206,7 @@
     var p2name = $('#p2name'),player2score = $('#player2score');
     var winnerName = $('#winnerName'), winnerScore = $('#winnerScore');
     var quit = $('#quit');
-    var player1id,player2id;
+    var player1id,player2id, rooms;
 
     //page 1
     $(document).ready(function(){
@@ -304,6 +305,7 @@
     socket.on('play', function(data){
 
         turn = data.turn;
+        rooms = data.rooms
 
         if(data.playturn){
             $(".ex5").hide("slow");
@@ -321,11 +323,14 @@
             console.log('Wait for your opponent.... ');
         }
     });
+
     var roomno,winner,loser,winningScore,losingScore;
+
     socket.on('conclusion', function(data){
         $(".ex6").hide("slow");
         $(".ex5").hide("slow");
         $(".ex7").show();
+
         winner = data.winner;
         loser = data.loser;
         winningScore = data.winningScore;
@@ -389,7 +394,9 @@
     $(function(){
         $("#includedContent2").load("calculate.html");
     });
+
     var firstTime,secondTime,firstCorrect=0,secondCorrect=0;
+   //firstTime == time of first player
     function check(){
         var input = document.getElementById("ans").value;
         var num=0;
@@ -423,21 +430,24 @@
 
                 //turn = 1 ==> second player turn, turn = 0 ==> first player turn
                 if(turn==1) {
+                    //sencond player time
                     secondTime = stoptime();
                     secondCorrect = 1;
                     console.log(secondTime);
                     socket.emit('done', {room: roomNum, time: secondTime, score: score,firstCorrect : firstCorrect,
-                         secondCorrect: secondCorrect});
+                         secondCorrect: secondCorrect, rooms:rooms});
                     console.log(firstCorrect+'&'+secondCorrect);
                     alert("Congratulation!!! You've solved the equation in"+secondTime+"sec");
 
                 }else if(turn ==0){
+                    //first player time
                     firstTime = stoptime();
                     console.log(firstTime);
                     firstCorrect= 1;
                     socket.emit('showit',
                             {room: roomNum, time: firstTime, sum: originalAns,
-                                num: originalProb, score: score,firstCorrect : firstCorrect,secondCorrect: secondCorrect});
+                                num: originalProb, score: score,firstCorrect : firstCorrect,
+                                secondCorrect: secondCorrect,rooms:rooms});
                     console.log(firstCorrect+'&&&&'+secondCorrect);
 
                     alert("Congratulation!!! You've solved the equation in"+firstTime+"sec");
@@ -458,7 +468,7 @@
 
     function backtogame(){
         socket.emit('continue',{room:roomNum, winner:winner,loser:loser,
-                        firstScore:winningScore,secondScore:losingScore });
+                        firstScore:winningScore,secondScore:losingScore,rooms:rooms });
 
       //  $(".ex7").hide("slow");
       //  $(".ex6").show();
