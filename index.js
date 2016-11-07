@@ -297,7 +297,7 @@ io.sockets.on('connection',function (socket) {
                     loser = rooms[data.room].first["name"] + "and" + rooms[data.room].second["name"];
                     losingScore = rooms[data.room].second["score"];
 
-                    winner = "there is no winner";
+                    winner = rooms[data.room].first["name"];
                     winningScore = rooms[data.room].first["score"];
 
                     console.log('3' + winningScore + losingScore);
@@ -386,7 +386,7 @@ io.sockets.on('connection',function (socket) {
                     console.log('4' + winningScore + losingScore);
 
                 } else if (data.secondCorrect == 1) {
-                    rooms[data.room].first["score"] += 1;
+                    rooms[data.room].second["score"] += 1;
 
                     winner = rooms[data.room].second["name"];
                     winningScore = rooms[data.room].second["score"];
